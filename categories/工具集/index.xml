@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on FELL &amp; ENJOY</title>
-    <link>https://fan-bu-fan.github.io/post/</link>
-    <description>Recent content in Posts on FELL &amp; ENJOY</description>
+    <title>工具集 on FELL &amp; ENJOY</title>
+    <link>https://fan-bu-fan.github.io/categories/%E5%B7%A5%E5%85%B7%E9%9B%86/</link>
+    <description>Recent content in 工具集 on FELL &amp; ENJOY</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="https://fan-bu-fan.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language><atom:link href="https://fan-bu-fan.github.io/categories/%E5%B7%A5%E5%85%B7%E9%9B%86/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>java环境配置</title>
       <link>https://fan-bu-fan.github.io/2022/6/java%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</link>
