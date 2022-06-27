@@ -216,21 +216,21 @@
 <li><a href="https://fan-bu-fan.github.io/2022/6/java%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">java 环境已经配置好</a></li>
 </ul>
 </blockquote>
-<h2 id="burp-suite的下载安装及破解教程">Burp Suite的下载安装及破解教程</h2>
-<h3 id="下载地址">下载地址</h3>
+<h1 id="burp-suite的下载安装及破解教程">Burp Suite的下载安装及破解教程</h1>
+<h4 id="下载地址">下载地址</h4>
 <p><a href="https://portswigger.net/burp/releases">点击进入官网进行下载</a></p>
 <pre tabindex="0"><code>  !!!这里我们选择专业版，并且建议选择JAR。方便我们后续对其进行破解
 </code></pre><p>
   <img src="/img/BurpSuit/%e5%ae%98%e7%bd%91%e4%b8%8b%e8%bd%bd.png" alt="官网地址">
 
 </p>
-<p>下载后就是一个jar包,对于jar包我们不能直接打开 但是可以通过 <!-- raw HTML omitted -->java -jar ****.jar <!-- raw HTML omitted --> 命令行的方式进行打开</p>
+<p>下载后就是一个jar包,对于jar包我们不能直接打开 但是可以通过 <code>java -jar ****.jar </code> 命令行的方式进行打开</p>
 <p>
   <img src="/img/BurpSuit/%e8%bf%90%e8%a1%8cBurpSuite.png" alt="打开jar包">
 
 </p>
 <p>然后通过点击run 按钮进行安装，但是在安装的过程中会让你填写licence 这个时候我们就需要下载破解机对其进行破解了</p>
-<h3 id="破解方式">破解方式</h3>
+<h4 id="破解方式">破解方式</h4>
 <p><a href="https://github.com/h3110w0r1d-y/BurpLoaderKeygen/releases">点击下载破解机</a></p>
 <p>
   <img src="/img/BurpSuit/%e7%a0%b4%e8%a7%a3%e6%9c%ba%e4%b8%8b%e8%bd%bd.png" alt="img.png">
@@ -242,7 +242,7 @@
 
 </p>
 <p>把这个jar包和Burp Suite的jar包放到同一个目录下面</p>
-<p>通过 <strong>java -jar .\BurpLoaderKeygen.jar</strong> 命令 打开破解机 并按照如下步骤进行破解
+<p>通过 <strong><code>java -jar .\BurpLoaderKeygen.jar</code></strong> 命令 打开破解机 并按照如下步骤进行破解
 
   <img src="/img/BurpSuit/%e7%a0%b4%e8%a7%a31.png" alt="存放目录">
 
@@ -275,8 +275,8 @@
   <img src="/img/BurpSuit/%e7%a0%b4%e8%a7%a38.png" alt="存放目录">
 
 </p>
-<h3 id="设置快捷启动方式">设置快捷启动方式</h3>
-<p>建立一个文档，输入java -jar [破解机的下载路径]（破解机的下载路径 jar和路径之间是有空格的！！！！！！！！！！！！不然打不开）编辑好后保存，改后缀为bat即可</p>
+<h4 id="设置快捷启动方式">设置快捷启动方式</h4>
+<p>建立一个文档，输入<code>java -jar [破解机的下载路径]</code>（破解机的下载路径 jar和路径之间是有空格的！！！！！！！！！！！！不然打不开）编辑好后保存，改后缀为bat即可</p>
 <blockquote>
 <p>我的破解机存放的路径为： D:\bigProgram\Java\BurpLoaderKeygen.jar  所以我新建的文档里 只需要写 java -jar D:\bigProgram\Java\BurpLoaderKeygen.jar</p>
 </blockquote>
@@ -285,15 +285,15 @@
 
 </p>
 <p>如上，以后我只需点击run.bat文件就能启动burpSuit了</p>
-<h2 id="burp-suite的使用">Burp Suite的使用</h2>
-<h3 id="使用前的配置要求">使用前的配置要求</h3>
+<h1 id="burp-suite的代理和浏览器设置">Burp Suite的代理和浏览器设置</h1>
+<h4 id="浏览器设置代理">浏览器设置代理</h4>
+<p>以火狐浏览器为例<a href="https://blog.csdn.net/Hou_Lang_/article/details/122047560">查看代理安装方式</a></p>
+<h4 id="证书的安装">证书的安装</h4>
+<p><span id="jump">为浏览器安装相应的证书</span></p>
 <ul>
 <li>
-<p>浏览器上设置代理(以火狐浏览器为例<a href="https://blog.csdn.net/Hou_Lang_/article/details/122047560">查看代理安装方式</a>)</p>
-</li>
-<li>
-<p>为浏览器安装相应的证书</p>
-<p><!-- raw HTML omitted --> 一定<!-- raw HTML omitted --> 要打开浏览器中的代理</p>
+<p>way1:(推荐)</p>
+<p><font color = red> 一定</font> 要打开浏览器中的代理</p>
 <p>
   <img src="/img/BurpSuit/%e5%bc%80%e5%90%af%e4%bb%a3%e7%90%86.png" alt="img.png">
 
@@ -304,15 +304,90 @@
 
 </p>
 </li>
+<li>
+<p>way2:(不推荐)</p>
+<p><a href="https://blog.csdn.net/supassxu/article/details/81448908">自行导出证书</a>的方式</p>
+</li>
 </ul>
 <blockquote>
 <p>下面我们就开始正式使用Burp Suite 工具啦。</p>
 </blockquote>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<h3 id="heading"></h3>
-<h3 id="heading-1"></h3>
-<h3 id="heading-2"></h3>
+<h1 id="burp-suite-模块的使用">Burp Suite 模块的使用</h1>
+<h4 id="dashboard-仪表盘">Dashboard 仪表盘</h4>
+<pre><code>左上角Tasks是任务区,新建的扫描任务或正在运行的任务都会在该区域显示
+
+左下角是Event lot是事件区,burpsuit报错或者事件的状态(扫描开始,扫描结束)都会在该区域显示
+
+右上角Issue activity ,该区域显示扫描出的漏洞,可以通过High,Medium,low查看不同危险等级的漏洞
+
+右下角是某个漏洞的详细情况展示
+</code></pre>
+<p>
+  <img src="/img/BurpSuit/dashBoard.png" alt="img.png">
+
+</p>
+<p>仪表盘的功能和简介可参考<a href="https://www.bilibili.com/video/BV1aq4y1X7oE?p=4">dashBoard新建扫描</a></p>
+<h4 id="target-模块">Target 模块</h4>
+<pre><code>Burp Target 组件主要包含站点地图、目标域、Target 工具三部分组成，
+他们帮助渗透测试人员更好地了解目标应用的整体状况、当前的工作涉及哪些
+目标域、分析可能存在的攻击面等信息
+</code></pre>
+<p><a href="https://t0data.gitbooks.io/burpsuite/content/chapter5.html">详细介绍文档</a>
+<a href="https://www.bilibili.com/video/BV1aq4y1X7oE?p=7">快速了解视频</a></p>
+<h4 id="proxy-模块">Proxy 模块</h4>
+<pre><code>辅助我们进行网页抓包
+</code></pre>
+<p><a href="https://www.bilibili.com/video/BV1aq4y1X7oE?p=6">快速了解视频</a>
+<a href="https://blog.csdn.net/weixin_45557138/article/details/107382941">详细操作文档</a></p>
+<h4 id="intruder-模块">Intruder 模块</h4>
+<pre><code>Burp Intruder作为Burp Suite中一款功能极其强大的自动化测试工具，通常被系统安全渗透测试人员
+被使用在各种任务测试的场景中
+</code></pre>
+<p><a href="https://t0data.gitbooks.io/burpsuite/content/chapter8.html">详细文档介绍</a>
+<a href="https://www.bilibili.com/video/BV1aq4y1X7oE?p=9">快速了解视频</a></p>
+<h4 id="repeater-模块">Repeater 模块</h4>
+<pre><code>Burp Repeater作为Burp Suite中一款手工验证HTTP消息的测试工具，通常用于多次重放请求响应和
+手工修改请求消息的修改后对服务器端响应的消息分析
+</code></pre>
+<p><a href="https://t0data.gitbooks.io/burpsuite/content/chapter9.html">详细介绍文档</a>
+<a href="https://www.bilibili.com/video/BV1aq4y1X7oE?p=8">快速了解视频</a></p>
+<h4 id="sequencer-模块">Sequencer 模块</h4>
+<pre><code>Burp Sequencer作为Burp Suite中一款用于检测数据样本随机性质量的工具，通常用于检测访问令牌是
+否可预测、密码重置令牌是否可预测等场景，通过Sequencer的数据样本分析，能很好地降低这些关键数据被
+伪造的风险
+</code></pre>
+<p><a href="https://t0data.gitbooks.io/burpsuite/content/chapter10.html">详细介绍文档</a></p>
+<h4 id="decoder-模块">Decoder 模块</h4>
+<pre><code>Burp Decoder的功能比较简单，作为Burp Suite中一款编码解码工具
+</code></pre>
+<p><a href="https://t0data.gitbooks.io/burpsuite/content/chapter11.html">详细介绍文档</a></p>
+<h4 id="compare-模块">Compare 模块</h4>
+<pre><code>Burp Comparer在Burp Suite中主要提供一个可视化的差异比对功能，来对比分析两次数据之间的区别
+</code></pre>
+<p><a href="https://t0data.gitbooks.io/burpsuite/content/chapter12.html">详细介绍文档</a></p>
+<h4 id="burpsuite-和sqlmap-的联动">burpsuite 和sqlmap 的联动</h4>
+<p><a href="https://blog.csdn.net/tiankai30/article/details/119378078">burpsuite 安装sqlmap插件</a></p>
+<h1 id="常见问题记录">常见问题记录</h1>
+<h4 id="抓包过程中显示有软件正在阻止firefox安全的连接此网站">抓包过程中显示“有软件正在阻止firefox安全的连接此网站”</h4>
+<p>出现此现象的主要原因是我们的浏览器没有配置burpSuite证书，我们可以通过<a href="#jump">以上方法</a>去进行证书的获取及安装</p>
+<h4 id="访问不了证书下载页面">访问不了证书下载页面</h4>
+<p>在访问 <code>https://burp</code> 之前一定要确保自己已经把 burpSuite的代理模式打开了
+
+  <img src="/img/BurpSuit/%e5%bc%80%e5%90%af%e4%bb%a3%e7%90%86.png" alt="img.png">
+
+</p>
+<h4 id="火狐浏览器自动向httpdetectportalfirefoxcom发包的问题">火狐浏览器自动向http://detectportal.firefox.com发包的问题</h4>
+<p>可以通过参考<a href="https://blog.csdn.net/kongzhian/article/details/111595144?spm=1001.2101.3001.6650.1&amp;utm_medium=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-1-111595144-blog-115273979.pc_relevant_antiscanv4&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-1-111595144-blog-115273979.pc_relevant_antiscanv4&amp;utm_relevant_index=2">此文章</a>进行解决</p>
+<h1 id="补充扩展资料">补充扩展资料</h1>
+<p><a href="https://www.bilibili.com/video/BV1aq4y1X7oE?spm_id_from=333.337.search-card.all.click">BurpSuite/Burp Suite 2021最新系列渗透视频</a></p>
+<p><a href="https://t0data.gitbooks.io/burpsuite/content/chapter4.html">Burp Suite 实战指南</a></p>
+<style>
+blockquote {
+  border-left: 2px dashed #333 !important;
+  background: linear-gradient(to bottom, #efe 0%,#fef 100%) !important;
+}
+</style><blockquote>
+</blockquote>
 
 
                 
