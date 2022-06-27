@@ -15,15 +15,15 @@
     
 
     
-    <meta name="title" content="环境配置" />
-    <meta property="og:title" content="环境配置" />
-    <meta property="twitter:title" content="环境配置" />
+    <meta name="title" content="Burp Suite的安装与使用" />
+    <meta property="og:title" content="Burp Suite的安装与使用" />
+    <meta property="twitter:title" content="Burp Suite的安装与使用" />
     
 
     
-    <meta name="description" content="fanfan，生活爱好者 | 眼睛里长着太阳，笑里全是坦荡。">
-    <meta property="og:description" content="fanfan，生活爱好者 | 眼睛里长着太阳，笑里全是坦荡。" />
-    <meta property="twitter:description" content="fanfan，生活爱好者 | 眼睛里长着太阳，笑里全是坦荡。" />
+    <meta name="description" content="主要用来记录 Burp Suite工具的安装与使用方法">
+    <meta property="og:description" content="主要用来记录 Burp Suite工具的安装与使用方法" />
+    <meta property="twitter:description" content="主要用来记录 Burp Suite工具的安装与使用方法" />
     
 
     
@@ -34,9 +34,9 @@
     <meta name="keyword"  content="帆帆, fanfan&#39;s的博客,个人网站,编程,网络安全,杂谈,瞎琢磨">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>环境配置 | 帆帆的博客 | fanfan&#39;s Blog</title>
+    <title>Burp Suite的安装与使用 | 帆帆的博客 | fanfan&#39;s Blog</title>
 
-    <link rel="canonical" href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">
+    <link rel="canonical" href="/2022/6/Burp%20Suite%20%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/">
 
     
     
@@ -151,14 +151,45 @@
 
 
 
-<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+
+<header class="intro-header" >
+
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
-                <div class="site-heading">
-                    <h1>FELL &amp; ENJOY </h1>
-                    
-		    <span class="subheading">人生处处有惊喜</span>
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/%E5%B7%A5%E5%85%B7" title="工具">
+                            工具
+                        </a>
+                        
+                        <a class="tag" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95" title="渗透测试">
+                            渗透测试
+                        </a>
+                        
+                    </div>
+                    <h1>Burp Suite的安装与使用</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        
+                            Posted by 
+                            
+                                伍帆
+                             
+                            on 
+                            Monday, January 1, 0001
+                            
+                            
+                            
+                            
+                    </span>
                 </div>
             </div>
         </div>
@@ -167,156 +198,192 @@
 
 
 
-  
-<div class="container">
-    <div class="row">
-        
-        
-   	    <div class="
-            col-lg-8 col-lg-offset-1
-            col-md-8 col-md-offset-1
-            col-sm-12
-            col-xs-12
-            post-container
-        ">
-            
 
-<div class="post-preview">
-    <a href="https://fan-bu-fan.github.io/2022/6/java%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">
-        <h2 class="post-title">
-            java环境配置
-        </h2>
-	
-        <div class="post-content-preview">
-	
-            本文主要描述记录如何在本机中配置java环境
-        
-        </div>
-    </a>
-    <p class="post-meta">
-    
-        Posted by 伍帆 on Monday, January 1, 0001
-        
-        
-    
-    </p>
-
-</div>
-<hr>
-
+<article>
+    <div class="container">
+        <div class="row">
 
             
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <blockquote>
+<p>前置条件</p>
+<ul>
+<li><a href="https://fan-bu-fan.github.io/2022/6/java%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">java 环境已经配置好</a></li>
+</ul>
+</blockquote>
+<h2 id="burp-suite的下载安装及破解教程">Burp Suite的下载安装及破解教程</h2>
+<h3 id="下载地址">下载地址</h3>
+<p><a href="https://portswigger.net/burp/releases">点击进入官网进行下载</a></p>
+<pre tabindex="0"><code>  !!!这里我们选择专业版，并且建议选择JAR。方便我们后续对其进行破解
+</code></pre><p>
+  <img src="/img/BurpSuit/%e5%ae%98%e7%bd%91%e4%b8%8b%e8%bd%bd.png" alt="官网地址">
+
+</p>
+<p>下载后就是一个jar包,对于jar包我们不能直接打开 但是可以通过 <!-- raw HTML omitted -->java -jar ****.jar <!-- raw HTML omitted --> 命令行的方式进行打开</p>
+<p>
+  <img src="/img/BurpSuit/%e8%bf%90%e8%a1%8cBurpSuite.png" alt="打开jar包">
+
+</p>
+<p>然后通过点击run 按钮进行安装，但是在安装的过程中会让你填写licence 这个时候我们就需要下载破解机对其进行破解了</p>
+<h3 id="破解方式">破解方式</h3>
+<p><a href="https://github.com/h3110w0r1d-y/BurpLoaderKeygen/releases">点击下载破解机</a></p>
+<p>
+  <img src="/img/BurpSuit/%e7%a0%b4%e8%a7%a3%e6%9c%ba%e4%b8%8b%e8%bd%bd.png" alt="img.png">
+
+</p>
+<p>将下载的jar包 和 burpSuite的jar包放在同一个目录下面
+
+  <img src="/img/BurpSuit/%e5%ad%98%e6%94%be%e7%9b%ae%e5%bd%95.png" alt="存放目录">
+
+</p>
+<p>把这个jar包和Burp Suite的jar包放到同一个目录下面</p>
+<p>通过 <strong>java -jar .\BurpLoaderKeygen.jar</strong> 命令 打开破解机 并按照如下步骤进行破解
+
+  <img src="/img/BurpSuit/%e7%a0%b4%e8%a7%a31.png" alt="存放目录">
 
 
 
-       	</div>
-        
+  <img src="/img/BurpSuit/%e7%a0%b4%e8%a7%a32.png" alt="存放目录">
 
-<div class="
-    col-lg-3 col-lg-offset-0
-    col-md-3 col-md-offset-0
-    col-sm-12
-    col-xs-12
-    sidebar-container
-">
-    
-	
-    <section class="visible-md visible-lg">
-	
-        <div class="short-about">
-            
-            <a href="/top/about">
-               <img src="/img/enjoy.jpg" alt="avatar" style="cursor: pointer" />
-            </a>
-            
-            
-                <p>生活享受者</p>
-            
-           
-           <ul class="list-inline">
-               
-               <li>
-                   <a href="mailto:2112825321@qq.com">
-                      <span class="fa-stack fa-lg">
-                          <i class="fa fa-circle fa-stack-2x"></i>
-                          <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
-                      </span>
-                   </a>
-               </li>
-               
-               
-               
-               
-               
-               
-               <li>
-                   <a target="_blank" href="/your%20wechat%20qr%20code%20image">
-                       <span class="fa-stack fa-lg">
-                           <i class="fas fa-circle fa-stack-2x"></i>
-                           <i class="fab fa-weixin fa-stack-1x fa-inverse"></i>
-                       </span>
-                   </a>
-               </li>
-               
-               
-               <li>
-                   <a target="_blank" href="https://github.com/fan-bu-fan">
-                       <span class="fa-stack fa-lg">
-                           <i class="fas fa-circle fa-stack-2x"></i>
-                           <i class="fab fa-github fa-stack-1x fa-inverse"></i>
-                       </span>
-                   </a>
-               </li>
-               
-               
-               
-               
-               
-               
-            
-            
-               
-               
-               
-               
+
+
+  <img src="/img/BurpSuit/%e7%a0%b4%e8%a7%a33.png" alt="存放目录">
+
+
+
+  <img src="/img/BurpSuit/%e7%a0%b4%e8%a7%a34.png" alt="存放目录">
+
+
+
+  <img src="/img/BurpSuit/%e7%a0%b4%e8%a7%a35.png" alt="存放目录">
+
+
+
+  <img src="/img/BurpSuit/%e7%a0%b4%e8%a7%a36.png" alt="存放目录">
+
+
+
+  <img src="/img/BurpSuit/%e7%a0%b4%e8%a7%a37.png" alt="存放目录">
+
+
+
+  <img src="/img/BurpSuit/%e7%a0%b4%e8%a7%a38.png" alt="存放目录">
+
+</p>
+<h3 id="设置快捷启动方式">设置快捷启动方式</h3>
+<p>建立一个文档，输入java -jar [破解机的下载路径]（破解机的下载路径 jar和路径之间是有空格的！！！！！！！！！！！！不然打不开）编辑好后保存，改后缀为bat即可</p>
+<blockquote>
+<p>我的破解机存放的路径为： D:\bigProgram\Java\BurpLoaderKeygen.jar  所以我新建的文档里 只需要写 java -jar D:\bigProgram\Java\BurpLoaderKeygen.jar</p>
+</blockquote>
+<p>
+  <img src="/img/BurpSuit/%e5%bf%ab%e6%8d%b7%e5%90%af%e5%8a%a8.png" alt="存放目录">
+
+</p>
+<p>如上，以后我只需点击run.bat文件就能启动burpSuit了</p>
+<h2 id="burp-suite的使用">Burp Suite的使用</h2>
+<h3 id="使用前的配置要求">使用前的配置要求</h3>
+<ul>
+<li>
+<p>浏览器上设置代理(以火狐浏览器为例<a href="https://blog.csdn.net/Hou_Lang_/article/details/122047560">查看代理安装方式</a>)</p>
+</li>
+<li>
+<p>为浏览器安装相应的证书</p>
+<p><!-- raw HTML omitted --> 一定<!-- raw HTML omitted --> 要打开浏览器中的代理</p>
+<p>
+  <img src="/img/BurpSuit/%e5%bc%80%e5%90%af%e4%bb%a3%e7%90%86.png" alt="img.png">
+
+</p>
+<p>然后在浏览器中输入 https://burp  如果出现如下画面则代表访问成功，然后我们点击 CA Certificate进行证书的安装
+
+  <img src="/img/BurpSuit/ca.png" alt="img.png">
+
+</p>
+</li>
+</ul>
+<blockquote>
+<p>下面我们就开始正式使用Burp Suite 工具啦。</p>
+</blockquote>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<h3 id="heading"></h3>
+<h3 id="heading-1"></h3>
+<h3 id="heading-2"></h3>
+
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2022/6/java%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" data-toggle="tooltip" data-placement="top" title="java环境配置">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
                 </ul>
+                
+
             </div>
-    </section>
-	
-    
-    
-    
-    
-    <section>
-        <hr class="hidden-sm hidden-xs">
-        <h5>FEATURED TAGS</h5>
-        <div class="tags">
+
             
             
-               
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
             
-               
-                    <a href="/tags/%E5%B7%A5%E5%85%B7" title="工具">
-                        工具
-                    </a>
-               
+
             
-               
-            
-               
-            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E5%B7%A5%E5%85%B7" title="工具">
+                            工具
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
         </div>
-    </section>
-    
-
-    
-    
-    
-</div>
-
-	</div>
-</div>
-
+    </div>
+</article>
 
 
 
@@ -376,7 +443,7 @@
             
            
                    <li>
-                       <a href='/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/index.xml' rel="alternate" type="application/rss+xml" title="FELL &amp; ENJOY" >
+                       <a href='' rel="alternate" type="application/rss+xml" title="FELL &amp; ENJOY" >
                            <span class="fa-stack fa-lg">
                                <i class="fas fa-circle fa-stack-2x"></i>
                                <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
