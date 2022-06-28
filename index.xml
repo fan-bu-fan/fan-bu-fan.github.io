@@ -88,6 +88,15 @@
     </item>
     
     <item>
+      <title>SQL Injection(工具篇) ---dvwa</title>
+      <link>https://fan-bu-fan.github.io/2022/6/tool%20sql%20injection/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fan-bu-fan.github.io/2022/6/tool%20sql%20injection/</guid>
+      <description>前置准备 sqlmap的安装 BurpSuite的安装 BuprSuite中配置sqlmap low级别破解 1.抓包查看数据包的情况 2.尝试使用sq</description>
+    </item>
+    
+    <item>
       <title>sqlMap的安装与使用</title>
       <link>https://fan-bu-fan.github.io/2022/6/sqlMap%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

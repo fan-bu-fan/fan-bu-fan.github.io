@@ -33,5 +33,14 @@
       <description>SQL Injection 盲注简介 SQL Injection（Blind），即SQL盲注，与一般注入的区别在于，一般的注入攻击者可以直接从页面上看到注入语句的执行结果，</description>
     </item>
     
+    <item>
+      <title>SQL Injection(工具篇) ---dvwa</title>
+      <link>https://fan-bu-fan.github.io/2022/6/tool%20sql%20injection/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fan-bu-fan.github.io/2022/6/tool%20sql%20injection/</guid>
+      <description>前置准备 sqlmap的安装 BurpSuite的安装 BuprSuite中配置sqlmap low级别破解 1.抓包查看数据包的情况 2.尝试使用sq</description>
+    </item>
+    
   </channel>
 </rss>
