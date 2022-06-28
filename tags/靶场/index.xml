@@ -12,7 +12,16 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://fan-bu-fan.github.io/2022/6/dvwa/</guid>
-      <description></description>
+      <description>dvwa简介 DVWA（Damn Vulnerable Web Application）是一个用来进行安全脆弱性鉴定的PHP/MySQL Web应用，旨在为安全专业人员测试</description>
+    </item>
+    
+    <item>
+      <title>SQL Injection ---dvwa</title>
+      <link>https://fan-bu-fan.github.io/2022/6/sql%20injection/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fan-bu-fan.github.io/2022/6/sql%20injection/</guid>
+      <description>SQL Injection 简介 SQL Injection，即SQL注入，是指攻击者通过注入恶意的SQL命令，破坏SQL查询语句的结构，从而达到执行恶意SQL语句的目的。</description>
     </item>
     
   </channel>
