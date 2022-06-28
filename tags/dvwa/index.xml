@@ -15,5 +15,14 @@
       <description>SQL Injection 简介 SQL Injection，即SQL注入，是指攻击者通过注入恶意的SQL命令，破坏SQL查询语句的结构，从而达到执行恶意SQL语句的目的。</description>
     </item>
     
+    <item>
+      <title>SQL Injection(Blind) ---dvwa</title>
+      <link>https://fan-bu-fan.github.io/2022/6/blind%20sql%20injection/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fan-bu-fan.github.io/2022/6/blind%20sql%20injection/</guid>
+      <description>SQL Injection 盲注简介 SQL Injection（Blind），即SQL盲注，与一般注入的区别在于，一般的注入攻击者可以直接从页面上看到注入语句的执行结果，</description>
+    </item>
+    
   </channel>
 </rss>
