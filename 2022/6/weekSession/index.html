@@ -15,15 +15,15 @@
     
 
     
-    <meta name="title" content="sqlMap的安装与使用" />
-    <meta property="og:title" content="sqlMap的安装与使用" />
-    <meta property="twitter:title" content="sqlMap的安装与使用" />
+    <meta name="title" content="Weak Session IDs---dvwa" />
+    <meta property="og:title" content="Weak Session IDs---dvwa" />
+    <meta property="twitter:title" content="Weak Session IDs---dvwa" />
     
 
     
-    <meta name="description" content="主要用来记录sqmMap工具的安装与使用方法">
-    <meta property="og:description" content="主要用来记录sqmMap工具的安装与使用方法" />
-    <meta property="twitter:description" content="主要用来记录sqmMap工具的安装与使用方法" />
+    <meta name="description" content="主要用来记录dvwa靶场 中 弱会话IDs 破解方式">
+    <meta property="og:description" content="主要用来记录dvwa靶场 中 弱会话IDs 破解方式" />
+    <meta property="twitter:description" content="主要用来记录dvwa靶场 中 弱会话IDs 破解方式" />
     
 
     
@@ -34,9 +34,9 @@
     <meta name="keyword"  content="帆帆, fanfan&#39;s的博客,个人网站,编程,网络安全,杂谈,瞎琢磨">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>sqlMap的安装与使用 | 帆帆的博客 | fanfan&#39;s Blog</title>
+    <title>Weak Session IDs---dvwa | 帆帆的博客 | fanfan&#39;s Blog</title>
 
-    <link rel="canonical" href="/2022/6/sqlMap%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/">
+    <link rel="canonical" href="/2022/6/weekSession/">
 
     
     
@@ -166,16 +166,16 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/%E5%B7%A5%E5%85%B7" title="工具">
-                            工具
+                        <a class="tag" href="/tags/%E9%9D%B6%E5%9C%BA" title="靶场">
+                            靶场
                         </a>
                         
-                        <a class="tag" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95" title="渗透测试">
-                            渗透测试
+                        <a class="tag" href="/tags/dvwa" title="dvwa">
+                            dvwa
                         </a>
                         
                     </div>
-                    <h1>sqlMap的安装与使用</h1>
+                    <h1>Weak Session IDs---dvwa</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         
@@ -211,54 +211,101 @@
 
                 
                 <blockquote>
-<p>sqlmap是一个自动化的sql注入工具，其主要功能是扫描，发现并利用给定的URL进行sql注入，目前支持数据库有mysql、oracle、access、postagesql、sql server、sqlite等</p>
+<p>前置条件
+浏览器安装<a href="https://github.com/Mr-xn/hackbar2.1.3">hackbar</a>插件</p>
 </blockquote>
-<h2 id="sqlmap的安装">sqlmap的安装</h2>
-<p>进入sqlmap<a href="https://sqlmap.org/">官网</a> 选择安装包进行下载安装</p>
-<p>
-  <img src="/img/sqlmap/%e5%ae%98%e7%bd%91.png" alt="sqlmap官网">
-
-</p>
+<h2 id="weak-session-ids-简介">Weak Session IDs 简介</h2>
 <blockquote>
-<p>注：因为sqlmap基于Python语言开发的，所以前提需要将Python这个语言环境给安装上</p>
+<p>当用户登录后，在服务器就会创建一个会话(session)，叫做会话控制，接着访问页面的时候就不用登录，只需要携带 Sesion去访问。</p>
+<p>sessionID作为特定用户访问站点所需要的唯一内容。如果能够计算或轻易猜到该sessionID，则攻击者将可以轻易获取访问权限，无需录直接进入特定用户界面，进而进行其他操作</p>
 </blockquote>
-<p>将下载好的sqlmap进行解压并且copy到python路径下
+<h2 id="low-级别破解">LOW 级别破解</h2>
+<blockquote>
+<p>查看源代码</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff79c6">&lt;?</span>php
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">$html</span> <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span> (<span style="color:#8be9fd;font-style:italic">$_SERVER</span>[<span style="color:#f1fa8c">&#39;REQUEST_METHOD&#39;</span>] <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;POST&#34;</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> (<span style="color:#ff79c6">!</span>isset (<span style="color:#8be9fd;font-style:italic">$_SESSION</span>[<span style="color:#f1fa8c">&#39;last_session_id&#39;</span>])) {
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd;font-style:italic">$_SESSION</span>[<span style="color:#f1fa8c">&#39;last_session_id&#39;</span>] <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">$_SESSION</span>[<span style="color:#f1fa8c">&#39;last_session_id&#39;</span>]<span style="color:#ff79c6">++</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">$cookie_value</span> <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">$_SESSION</span>[<span style="color:#f1fa8c">&#39;last_session_id&#39;</span>];
+</span></span><span style="display:flex;"><span>    setcookie(<span style="color:#f1fa8c">&#34;dvwaSession&#34;</span>, <span style="color:#8be9fd;font-style:italic">$cookie_value</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">?&gt;</span> 
+</span></span></code></pre></div><blockquote>
+<p>low级别未设置过滤，直接用bp抓包，可以清楚的看到dvwaSesion的cookie，每重放一次，dvwaSesion增加一</p>
+</blockquote>
+<h4 id="通过构造参数绕过验证过程">通过构造参数绕过验证过程</h4>
+<p>抓取数据包
 
-  <img src="/img/sqlmap/%e5%ad%98%e6%94%be.png" alt="存放路径">
+  <img src="/img/session/1-1.png" alt="">
+
+
+获得 里面的cookie值：<code>dvwaSession=**; PHPSESSID=k368j2ca7pc2km9bn9qnuf0iuj; security=low</code>
+更改dvwaSesion 的值+1然后,重新开个浏览器页面点击f12 调出hackbar
+
+  <img src="/img/session/1-3.png" alt="">
 
 </p>
-<h2 id="sqlmap的启动">sqlmap的启动</h2>
-<p>在桌面创建一个cmd的快捷方式，并命名为SQLMap</p>
-<ul>
-<li>第一步：右键—&gt;新建—&gt;快捷方式
+<p>然后输入 对应的url 和上面更改后的cookie值 
 
-  <img src="/img/sqlmap/cmd.png" alt="cmd">
+  <img src="/img/session/1-2.png" alt="">
 
-</li>
-<li>第二步：输入快捷方式的名称,点击完成，桌面上就会显示快捷图标
+</p>
+<h2 id="medium-级别破解">Medium 级别破解</h2>
+<blockquote>
+<p>查看源代码</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff79c6">&lt;?</span>php
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">$html</span> <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span> (<span style="color:#8be9fd;font-style:italic">$_SERVER</span>[<span style="color:#f1fa8c">&#39;REQUEST_METHOD&#39;</span>] <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;POST&#34;</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">$cookie_value</span> <span style="color:#ff79c6">=</span> time();
+</span></span><span style="display:flex;"><span>    setcookie(<span style="color:#f1fa8c">&#34;dvwaSession&#34;</span>, <span style="color:#8be9fd;font-style:italic">$cookie_value</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">?&gt;</span> 
+</span></span></code></pre></div><p>medium级别是基于时间戳生成dvwaSesion的，关于时间戳转换，直接查找转换器进行转换即可</p>
+<pre><code>其他步骤和low级别的破解是一样的
+</code></pre>
+<h2 id="high-级别破解">High 级别破解</h2>
+<blockquote>
+<p>查看源代码</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff79c6">&lt;?</span>php
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">$html</span> <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span> (<span style="color:#8be9fd;font-style:italic">$_SERVER</span>[<span style="color:#f1fa8c">&#39;REQUEST_METHOD&#39;</span>] <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;POST&#34;</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> (<span style="color:#ff79c6">!</span>isset (<span style="color:#8be9fd;font-style:italic">$_SESSION</span>[<span style="color:#f1fa8c">&#39;last_session_id_high&#39;</span>])) {
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd;font-style:italic">$_SESSION</span>[<span style="color:#f1fa8c">&#39;last_session_id_high&#39;</span>] <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">$_SESSION</span>[<span style="color:#f1fa8c">&#39;last_session_id_high&#39;</span>]<span style="color:#ff79c6">++</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">$cookie_value</span> <span style="color:#ff79c6">=</span> md5(<span style="color:#8be9fd;font-style:italic">$_SESSION</span>[<span style="color:#f1fa8c">&#39;last_session_id_high&#39;</span>]);
+</span></span><span style="display:flex;"><span>    setcookie(<span style="color:#f1fa8c">&#34;dvwaSession&#34;</span>, <span style="color:#8be9fd;font-style:italic">$cookie_value</span>, time()<span style="color:#ff79c6">+</span><span style="color:#bd93f9">3600</span>, <span style="color:#f1fa8c">&#34;/vulnerabilities/weak_id/&#34;</span>, <span style="color:#8be9fd;font-style:italic">$_SERVER</span>[<span style="color:#f1fa8c">&#39;HTTP_HOST&#39;</span>], <span style="color:#ff79c6">false</span>, <span style="color:#ff79c6">false</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">?&gt;</span> 
+</span></span></code></pre></div><blockquote>
+<p>high级别使用了PHP setcookie()函数，来设置cookie:</p>
+</blockquote>
+<p>对其进行抓包
 
-  <img src="/img/sqlmap/%e5%90%8d%e7%a7%b0.png" alt="名称">
+  <img src="/img/session/2-1.png" alt="">
 
+</p>
+<p>抓包发现，dvwaSesion值很像md5加密，使用md5解密，发现是对从零开始的整数进行加密
 
+  <img src="/img/session/2-2.png" alt="">
 
-  <img src="/img/sqlmap/%e5%90%8d%e7%a7%b01.png" alt="快捷">
-
-</li>
-<li>第三步：在新建的快捷方式上右键“属性”，将“起始位置”修改为自己sqlmap所在的路径，点击确定
-
-  <img src="/img/sqlmap/%e5%bf%ab%e6%8d%b7%e8%b7%af%e5%be%84.png" alt="快捷路径">
-
-</li>
-<li>第四步：双击已创建的快捷方式，输入sqlmap.py -h，出现如下信息则表示安装成功
-
-  <img src="/img/sqlmap/%e5%90%af%e5%8a%a8.png" alt="启动">
-
-</li>
-</ul>
-<h2 id="sqlmap的使用">sqlmap的使用</h2>
-<h2 id="补充扩展资料">补充扩展资料</h2>
-<p><a href="https://www.bilibili.com/video/BV1bJ41177mD?spm_id_from=333.337.search-card.all.click">sqlmap学习视频</a></p>
-<p><a href="https://blog.csdn.net/qq_43531669/article/details/113835025">sqlmap 使用文档资料</a></p>
+</p>
+<p>因此我们可以使用md5对数字进行加密并赋值给dvwaSession,然后通过hackBar 去进行访问</p>
+<h2 id="学习资料">学习资料</h2>
+<p><a href="https://www.bilibili.com/video/BV1u54y167jS?spm_id_from=333.337.search-card.all.click&amp;vd_source=f0d060adc4a7afa21464a1ed20e176c0">视频资料</a></p>
 
 
                 
@@ -266,14 +313,9 @@
                 <hr>
                 <ul class="pager">
                     
-                    <li class="previous">
-                        <a href="/2022/6/weekSession/" data-toggle="tooltip" data-placement="top" title="Weak Session IDs---dvwa">&larr;
-                            Previous Post</a>
-                    </li>
-                    
                     
                     <li class="next">
-                        <a href="/2022/6/tool%20sql%20injection/" data-toggle="tooltip" data-placement="top" title="SQL Injection(工具篇) ---dvwa">Next
+                        <a href="/2022/6/sqlMap%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/" data-toggle="tooltip" data-placement="top" title="sqlMap的安装与使用">Next
                             Post &rarr;</a>
                     </li>
                     

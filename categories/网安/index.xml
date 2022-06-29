@@ -96,5 +96,14 @@
       <description>前置准备 sqlmap的安装 BurpSuite的安装 BuprSuite中配置sqlmap low级别破解 1.抓包查看数据包的情况 2.尝试使用sq</description>
     </item>
     
+    <item>
+      <title>Weak Session IDs---dvwa</title>
+      <link>https://fan-bu-fan.github.io/2022/6/weekSession/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fan-bu-fan.github.io/2022/6/weekSession/</guid>
+      <description>前置条件 浏览器安装hackbar插件 Weak Session IDs 简介 当用户登录后，在服务器就会创建一个会话(session)，叫做会话控制，接着访问页面的时候就不</description>
+    </item>
+    
   </channel>
 </rss>
