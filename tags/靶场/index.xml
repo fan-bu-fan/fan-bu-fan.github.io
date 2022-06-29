@@ -52,6 +52,15 @@
     </item>
     
     <item>
+      <title>File Upload ---dvwa</title>
+      <link>https://fan-bu-fan.github.io/2022/6/File%20Upload/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fan-bu-fan.github.io/2022/6/File%20Upload/</guid>
+      <description>文件上传漏洞简介 File Upload，即文件上传漏洞，通常是由于对上传文件的类型、内容没有进行严格的过滤、检查，使得攻击者可以通过上传木马获取服务</description>
+    </item>
+    
+    <item>
       <title>SQL Injection ---dvwa</title>
       <link>https://fan-bu-fan.github.io/2022/6/sql%20injection/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
