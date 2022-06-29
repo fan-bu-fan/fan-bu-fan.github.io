@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="FELL &amp; ENJOY">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://fan-bu-fan.github.io//img/home-bg.jpg">
+    <meta property="twitter:image" content="https://fan-bu-fan.github.io//img/home-bg.jpg" />
+    
+
+    
+    <meta name="title" content="Insecure CAPTCHA ---dvwa" />
+    <meta property="og:title" content="Insecure CAPTCHA ---dvwa" />
+    <meta property="twitter:title" content="Insecure CAPTCHA ---dvwa" />
+    
+
+    
+    <meta name="description" content="主要用来记录dvwa靶场 中 不安全的验证码 破解方式">
+    <meta property="og:description" content="主要用来记录dvwa靶场 中 不安全的验证码 破解方式" />
+    <meta property="twitter:description" content="主要用来记录dvwa靶场 中 不安全的验证码 破解方式" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="帆帆, fanfan&#39;s的博客,个人网站,编程,网络安全,杂谈,瞎琢磨">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>Insecure CAPTCHA ---dvwa | 帆帆的博客 | fanfan&#39;s Blog</title>
+
+    <link rel="canonical" href="/2022/6/Insecure%20CAPTCHA/">
+
+    
+    
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hugo-theme-cleanwhite.min.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="https://cdn.jsdelivr.net/gh/FortAwesome/Font-Awesome@5.15.1/css/all.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">FELL &amp; ENJOY</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">All Posts</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/%E5%B7%A5%E5%85%B7%E9%9B%86">工具集</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/%E7%BD%91%E5%AE%89">网安</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/top/archive/">历史文章</a></li>
+                    
+                        <li><a href="/top/about/">关于我</a></li>
+                    
+
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+
+<header class="intro-header" >
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/%E9%9D%B6%E5%9C%BA" title="靶场">
+                            靶场
+                        </a>
+                        
+                        <a class="tag" href="/tags/dvwa" title="dvwa">
+                            dvwa
+                        </a>
+                        
+                    </div>
+                    <h1>Insecure CAPTCHA ---dvwa</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        
+                            Posted by 
+                            
+                                伍帆
+                             
+                            on 
+                            Monday, January 1, 0001
+                            
+                            
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <h2 id="insecure-captcha-简介">Insecure CAPTCHA 简介</h2>
+<p>Insecure CAPTCHA，意思是不安全的验证码，CAPTCHA是Completely Automated Public Turing Test to Tell Computers and Humans Apart (全自动区分计算机和人类的图灵测试)的简称</p>
+<h2 id="low-级别破解">LOW 级别破解</h2>
+<blockquote>
+<p>查看源代码</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff79c6">&lt;?</span>php
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span>( isset( <span style="color:#8be9fd;font-style:italic">$_POST</span>[ <span style="color:#f1fa8c">&#39;Change&#39;</span> ] ) ) {
+</span></span><span style="display:flex;"><span>   <span style="color:#6272a4">// Check Anti-CSRF token
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>   checkToken( <span style="color:#8be9fd;font-style:italic">$_REQUEST</span>[ <span style="color:#f1fa8c">&#39;user_token&#39;</span> ], <span style="color:#8be9fd;font-style:italic">$_SESSION</span>[ <span style="color:#f1fa8c">&#39;session_token&#39;</span> ], <span style="color:#f1fa8c">&#39;index.php&#39;</span> );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#6272a4">// Hide the CAPTCHA form
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>   <span style="color:#8be9fd;font-style:italic">$hide_form</span> <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#6272a4">// Get input
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>   <span style="color:#8be9fd;font-style:italic">$pass_new</span>  <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">$_POST</span>[ <span style="color:#f1fa8c">&#39;password_new&#39;</span> ];
+</span></span><span style="display:flex;"><span>   <span style="color:#8be9fd;font-style:italic">$pass_new</span>  <span style="color:#ff79c6">=</span> stripslashes( <span style="color:#8be9fd;font-style:italic">$pass_new</span> );
+</span></span><span style="display:flex;"><span>   <span style="color:#8be9fd;font-style:italic">$pass_new</span>  <span style="color:#ff79c6">=</span> ((isset(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>]) <span style="color:#ff79c6">&amp;&amp;</span> is_object(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>])) <span style="color:#ff79c6">?</span> mysqli_real_escape_string(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>],  <span style="color:#8be9fd;font-style:italic">$pass_new</span> ) <span style="color:#ff79c6">:</span> ((trigger_error(<span style="color:#f1fa8c">&#34;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&#34;</span>, E_USER_ERROR)) <span style="color:#ff79c6">?</span> <span style="color:#f1fa8c">&#34;&#34;</span> <span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;&#34;</span>));
+</span></span><span style="display:flex;"><span>   <span style="color:#8be9fd;font-style:italic">$pass_new</span>  <span style="color:#ff79c6">=</span> md5( <span style="color:#8be9fd;font-style:italic">$pass_new</span> );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#8be9fd;font-style:italic">$pass_conf</span> <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">$_POST</span>[ <span style="color:#f1fa8c">&#39;password_conf&#39;</span> ];
+</span></span><span style="display:flex;"><span>   <span style="color:#8be9fd;font-style:italic">$pass_conf</span> <span style="color:#ff79c6">=</span> stripslashes( <span style="color:#8be9fd;font-style:italic">$pass_conf</span> );
+</span></span><span style="display:flex;"><span>   <span style="color:#8be9fd;font-style:italic">$pass_conf</span> <span style="color:#ff79c6">=</span> ((isset(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>]) <span style="color:#ff79c6">&amp;&amp;</span> is_object(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>])) <span style="color:#ff79c6">?</span> mysqli_real_escape_string(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>],  <span style="color:#8be9fd;font-style:italic">$pass_conf</span> ) <span style="color:#ff79c6">:</span> ((trigger_error(<span style="color:#f1fa8c">&#34;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&#34;</span>, E_USER_ERROR)) <span style="color:#ff79c6">?</span> <span style="color:#f1fa8c">&#34;&#34;</span> <span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;&#34;</span>));
+</span></span><span style="display:flex;"><span>   <span style="color:#8be9fd;font-style:italic">$pass_conf</span> <span style="color:#ff79c6">=</span> md5( <span style="color:#8be9fd;font-style:italic">$pass_conf</span> );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#8be9fd;font-style:italic">$pass_curr</span> <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">$_POST</span>[ <span style="color:#f1fa8c">&#39;password_current&#39;</span> ];
+</span></span><span style="display:flex;"><span>   <span style="color:#8be9fd;font-style:italic">$pass_curr</span> <span style="color:#ff79c6">=</span> stripslashes( <span style="color:#8be9fd;font-style:italic">$pass_curr</span> );
+</span></span><span style="display:flex;"><span>   <span style="color:#8be9fd;font-style:italic">$pass_curr</span> <span style="color:#ff79c6">=</span> ((isset(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>]) <span style="color:#ff79c6">&amp;&amp;</span> is_object(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>])) <span style="color:#ff79c6">?</span> mysqli_real_escape_string(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>],  <span style="color:#8be9fd;font-style:italic">$pass_curr</span> ) <span style="color:#ff79c6">:</span> ((trigger_error(<span style="color:#f1fa8c">&#34;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&#34;</span>, E_USER_ERROR)) <span style="color:#ff79c6">?</span> <span style="color:#f1fa8c">&#34;&#34;</span> <span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;&#34;</span>));
+</span></span><span style="display:flex;"><span>   <span style="color:#8be9fd;font-style:italic">$pass_curr</span> <span style="color:#ff79c6">=</span> md5( <span style="color:#8be9fd;font-style:italic">$pass_curr</span> );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#6272a4">// Check CAPTCHA from 3rd party
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>   <span style="color:#8be9fd;font-style:italic">$resp</span> <span style="color:#ff79c6">=</span> recaptcha_check_answer(
+</span></span><span style="display:flex;"><span>       <span style="color:#8be9fd;font-style:italic">$_DVWA</span>[ <span style="color:#f1fa8c">&#39;recaptcha_private_key&#39;</span> ],
+</span></span><span style="display:flex;"><span>       <span style="color:#8be9fd;font-style:italic">$_POST</span>[<span style="color:#f1fa8c">&#39;g-recaptcha-response&#39;</span>]
+</span></span><span style="display:flex;"><span>   );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#6272a4">// Did the CAPTCHA fail?
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>   <span style="color:#ff79c6">if</span>( <span style="color:#ff79c6">!</span><span style="color:#8be9fd;font-style:italic">$resp</span> ) {
+</span></span><span style="display:flex;"><span>       <span style="color:#6272a4">// What happens when the CAPTCHA was entered incorrectly
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>       <span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;&lt;pre&gt;&lt;br /&gt;The CAPTCHA was incorrect. Please try again.&lt;/pre&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>       <span style="color:#8be9fd;font-style:italic">$hide_form</span> <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">false</span>;
+</span></span><span style="display:flex;"><span>   }
+</span></span><span style="display:flex;"><span>   <span style="color:#ff79c6">else</span> {
+</span></span><span style="display:flex;"><span>       <span style="color:#6272a4">// Check that the current password is correct
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>       <span style="color:#8be9fd;font-style:italic">$data</span> <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">$db</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">prepare</span>( <span style="color:#f1fa8c">&#39;SELECT password FROM users WHERE user = (:user) AND password = (:password) LIMIT 1;&#39;</span> );
+</span></span><span style="display:flex;"><span>       <span style="color:#8be9fd;font-style:italic">$data</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">bindParam</span>( <span style="color:#f1fa8c">&#39;:user&#39;</span>, dvwaCurrentUser(), PDO<span style="color:#ff79c6">::</span><span style="color:#50fa7b">PARAM_STR</span> );
+</span></span><span style="display:flex;"><span>       <span style="color:#8be9fd;font-style:italic">$data</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">bindParam</span>( <span style="color:#f1fa8c">&#39;:password&#39;</span>, <span style="color:#8be9fd;font-style:italic">$pass_curr</span>, PDO<span style="color:#ff79c6">::</span><span style="color:#50fa7b">PARAM_STR</span> );
+</span></span><span style="display:flex;"><span>       <span style="color:#8be9fd;font-style:italic">$data</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">execute</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>       <span style="color:#6272a4">// Do both new password match and was the current password correct?
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>       <span style="color:#ff79c6">if</span>( ( <span style="color:#8be9fd;font-style:italic">$pass_new</span> <span style="color:#ff79c6">==</span> <span style="color:#8be9fd;font-style:italic">$pass_conf</span>) <span style="color:#ff79c6">&amp;&amp;</span> ( <span style="color:#8be9fd;font-style:italic">$data</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">rowCount</span>() <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">1</span> ) ) {
+</span></span><span style="display:flex;"><span>           <span style="color:#6272a4">// Update the database
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>           <span style="color:#8be9fd;font-style:italic">$data</span> <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">$db</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">prepare</span>( <span style="color:#f1fa8c">&#39;UPDATE users SET password = (:password) WHERE user = (:user);&#39;</span> );
+</span></span><span style="display:flex;"><span>           <span style="color:#8be9fd;font-style:italic">$data</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">bindParam</span>( <span style="color:#f1fa8c">&#39;:password&#39;</span>, <span style="color:#8be9fd;font-style:italic">$pass_new</span>, PDO<span style="color:#ff79c6">::</span><span style="color:#50fa7b">PARAM_STR</span> );
+</span></span><span style="display:flex;"><span>           <span style="color:#8be9fd;font-style:italic">$data</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">bindParam</span>( <span style="color:#f1fa8c">&#39;:user&#39;</span>, dvwaCurrentUser(), PDO<span style="color:#ff79c6">::</span><span style="color:#50fa7b">PARAM_STR</span> );
+</span></span><span style="display:flex;"><span>           <span style="color:#8be9fd;font-style:italic">$data</span><span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">execute</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>           <span style="color:#6272a4">// Feedback for the end user - success!
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>           <span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;&lt;pre&gt;Password Changed.&lt;/pre&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>       }
+</span></span><span style="display:flex;"><span>       <span style="color:#ff79c6">else</span> {
+</span></span><span style="display:flex;"><span>           <span style="color:#6272a4">// Feedback for the end user - failed!
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>           <span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;&lt;pre&gt;Either your current password is incorrect or the new passwords did not match.&lt;br /&gt;Please try again.&lt;/pre&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>           <span style="color:#8be9fd;font-style:italic">$hide_form</span> <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">false</span>;
+</span></span><span style="display:flex;"><span>       }
+</span></span><span style="display:flex;"><span>   }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">// Generate Anti-CSRF token
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>generateSessionToken();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">?&gt;</span> 
+</span></span></code></pre></div><blockquote>
+<p>服务器将改密操作分成了两步，第一步检查用户输入的验证码，验证通过后，服务器返回表单，第二步客户端提交post请求，服务器完成更改密码的操作。但是，这其中存在明显的逻辑漏洞，服务器仅仅通过检查Change、step 参数来判断用户是否已经输入了正确的验证码。</p>
+</blockquote>
+<h4 id="通过构造参数绕过验证过程">通过构造参数绕过验证过程</h4>
+<p>对下面页面进行抓包
+
+  <img src="/img/InsecureSCAPTCHA/1-1.png" alt="初级页面">
+
+
+将下面的step = 1 换成step =2
+
+  <img src="/img/InsecureSCAPTCHA/1-2.png" alt="初级页面">
+
+
+修改密码成功：
+
+  <img src="/img/InsecureSCAPTCHA/1-3.png" alt="初级页面">
+
+</p>
+<h2 id="medium-级别破解">Medium 级别破解</h2>
+<blockquote>
+<p>查看源代码</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff79c6">&lt;?</span>php
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span>( isset( <span style="color:#8be9fd;font-style:italic">$_POST</span>[ <span style="color:#f1fa8c">&#39;Change&#39;</span> ] ) <span style="color:#ff79c6">&amp;&amp;</span> ( <span style="color:#8be9fd;font-style:italic">$_POST</span>[ <span style="color:#f1fa8c">&#39;step&#39;</span> ] <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#39;1&#39;</span> ) ) {
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// Hide the CAPTCHA form
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">$hide_form</span> <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// Get input
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">$pass_new</span>  <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">$_POST</span>[ <span style="color:#f1fa8c">&#39;password_new&#39;</span> ];
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">$pass_conf</span> <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">$_POST</span>[ <span style="color:#f1fa8c">&#39;password_conf&#39;</span> ];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// Check CAPTCHA from 3rd party
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">$resp</span> <span style="color:#ff79c6">=</span> recaptcha_check_answer(
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd;font-style:italic">$_DVWA</span>[ <span style="color:#f1fa8c">&#39;recaptcha_private_key&#39;</span> ],
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd;font-style:italic">$_POST</span>[<span style="color:#f1fa8c">&#39;g-recaptcha-response&#39;</span>]
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// Did the CAPTCHA fail?
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">if</span>( <span style="color:#ff79c6">!</span><span style="color:#8be9fd;font-style:italic">$resp</span> ) {
+</span></span><span style="display:flex;"><span>        <span style="color:#6272a4">// What happens when the CAPTCHA was entered incorrectly
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        <span style="color:#8be9fd;font-style:italic">$html</span>     <span style="color:#ff79c6">.=</span> <span style="color:#f1fa8c">&#34;&lt;pre&gt;&lt;br /&gt;The CAPTCHA was incorrect. Please try again.&lt;/pre&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd;font-style:italic">$hide_form</span> <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">false</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#6272a4">// CAPTCHA was correct. Do both new passwords match?
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        <span style="color:#ff79c6">if</span>( <span style="color:#8be9fd;font-style:italic">$pass_new</span> <span style="color:#ff79c6">==</span> <span style="color:#8be9fd;font-style:italic">$pass_conf</span> ) {
+</span></span><span style="display:flex;"><span>            <span style="color:#6272a4">// Show next stage for the user
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>            <span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">                &lt;pre&gt;&lt;br /&gt;You passed the CAPTCHA! Click the button to confirm your changes.&lt;br /&gt;&lt;/pre&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">                &lt;form action=</span><span style="color:#f1fa8c">\&#34;</span><span style="color:#f1fa8c">#</span><span style="color:#f1fa8c">\&#34;</span><span style="color:#f1fa8c"> method=</span><span style="color:#f1fa8c">\&#34;</span><span style="color:#f1fa8c">POST</span><span style="color:#f1fa8c">\&#34;</span><span style="color:#f1fa8c">&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">                    &lt;input type=</span><span style="color:#f1fa8c">\&#34;</span><span style="color:#f1fa8c">hidden</span><span style="color:#f1fa8c">\&#34;</span><span style="color:#f1fa8c"> name=</span><span style="color:#f1fa8c">\&#34;</span><span style="color:#f1fa8c">step</span><span style="color:#f1fa8c">\&#34;</span><span style="color:#f1fa8c"> value=</span><span style="color:#f1fa8c">\&#34;</span><span style="color:#f1fa8c">2</span><span style="color:#f1fa8c">\&#34;</span><span style="color:#f1fa8c"> /&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">                    &lt;input type=</span><span style="color:#f1fa8c">\&#34;</span><span style="color:#f1fa8c">hidden</span><span style="color:#f1fa8c">\&#34;</span><span style="color:#f1fa8c"> name=</span><span style="color:#f1fa8c">\&#34;</span><span style="color:#f1fa8c">password_new</span><span style="color:#f1fa8c">\&#34;</span><span style="color:#f1fa8c"> value=</span><span style="color:#f1fa8c">\&#34;</span><span style="color:#f1fa8c">{</span><span style="color:#8be9fd;font-style:italic">$pass_new</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">\&#34;</span><span style="color:#f1fa8c"> /&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">                    &lt;input type=</span><span style="color:#f1fa8c">\&#34;</span><span style="color:#f1fa8c">hidden</span><span style="color:#f1fa8c">\&#34;</span><span style="color:#f1fa8c"> name=</span><span style="color:#f1fa8c">\&#34;</span><span style="color:#f1fa8c">password_conf</span><span style="color:#f1fa8c">\&#34;</span><span style="color:#f1fa8c"> value=</span><span style="color:#f1fa8c">\&#34;</span><span style="color:#f1fa8c">{</span><span style="color:#8be9fd;font-style:italic">$pass_conf</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">\&#34;</span><span style="color:#f1fa8c"> /&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">                    &lt;input type=</span><span style="color:#f1fa8c">\&#34;</span><span style="color:#f1fa8c">hidden</span><span style="color:#f1fa8c">\&#34;</span><span style="color:#f1fa8c"> name=</span><span style="color:#f1fa8c">\&#34;</span><span style="color:#f1fa8c">passed_captcha</span><span style="color:#f1fa8c">\&#34;</span><span style="color:#f1fa8c"> value=</span><span style="color:#f1fa8c">\&#34;</span><span style="color:#f1fa8c">true</span><span style="color:#f1fa8c">\&#34;</span><span style="color:#f1fa8c"> /&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">                    &lt;input type=</span><span style="color:#f1fa8c">\&#34;</span><span style="color:#f1fa8c">submit</span><span style="color:#f1fa8c">\&#34;</span><span style="color:#f1fa8c"> name=</span><span style="color:#f1fa8c">\&#34;</span><span style="color:#f1fa8c">Change</span><span style="color:#f1fa8c">\&#34;</span><span style="color:#f1fa8c"> value=</span><span style="color:#f1fa8c">\&#34;</span><span style="color:#f1fa8c">Change</span><span style="color:#f1fa8c">\&#34;</span><span style="color:#f1fa8c"> /&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#f1fa8c">                &lt;/form&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">else</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#6272a4">// Both new passwords do not match.
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>            <span style="color:#8be9fd;font-style:italic">$html</span>     <span style="color:#ff79c6">.=</span> <span style="color:#f1fa8c">&#34;&lt;pre&gt;Both passwords must match.&lt;/pre&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#8be9fd;font-style:italic">$hide_form</span> <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">false</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span>( isset( <span style="color:#8be9fd;font-style:italic">$_POST</span>[ <span style="color:#f1fa8c">&#39;Change&#39;</span> ] ) <span style="color:#ff79c6">&amp;&amp;</span> ( <span style="color:#8be9fd;font-style:italic">$_POST</span>[ <span style="color:#f1fa8c">&#39;step&#39;</span> ] <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#39;2&#39;</span> ) ) {
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// Hide the CAPTCHA form
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">$hide_form</span> <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// Get input
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">$pass_new</span>  <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">$_POST</span>[ <span style="color:#f1fa8c">&#39;password_new&#39;</span> ];
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">$pass_conf</span> <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">$_POST</span>[ <span style="color:#f1fa8c">&#39;password_conf&#39;</span> ];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// Check to see if they did stage 1
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">if</span>( <span style="color:#ff79c6">!</span><span style="color:#8be9fd;font-style:italic">$_POST</span>[ <span style="color:#f1fa8c">&#39;passed_captcha&#39;</span> ] ) {
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd;font-style:italic">$html</span>     <span style="color:#ff79c6">.=</span> <span style="color:#f1fa8c">&#34;&lt;pre&gt;&lt;br /&gt;You have not passed the CAPTCHA.&lt;/pre&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd;font-style:italic">$hide_form</span> <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">false</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// Check to see if both password match
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">if</span>( <span style="color:#8be9fd;font-style:italic">$pass_new</span> <span style="color:#ff79c6">==</span> <span style="color:#8be9fd;font-style:italic">$pass_conf</span> ) {
+</span></span><span style="display:flex;"><span>        <span style="color:#6272a4">// They do!
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        <span style="color:#8be9fd;font-style:italic">$pass_new</span> <span style="color:#ff79c6">=</span> ((isset(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>]) <span style="color:#ff79c6">&amp;&amp;</span> is_object(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>])) <span style="color:#ff79c6">?</span> mysqli_real_escape_string(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>],  <span style="color:#8be9fd;font-style:italic">$pass_new</span> ) <span style="color:#ff79c6">:</span> ((trigger_error(<span style="color:#f1fa8c">&#34;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&#34;</span>, E_USER_ERROR)) <span style="color:#ff79c6">?</span> <span style="color:#f1fa8c">&#34;&#34;</span> <span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;&#34;</span>));
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd;font-style:italic">$pass_new</span> <span style="color:#ff79c6">=</span> md5( <span style="color:#8be9fd;font-style:italic">$pass_new</span> );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#6272a4">// Update database
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        <span style="color:#8be9fd;font-style:italic">$insert</span> <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;UPDATE `users` SET password = &#39;</span><span style="color:#f1fa8c">$pass_new</span><span style="color:#f1fa8c">&#39; WHERE user = &#39;&#34;</span> <span style="color:#ff79c6">.</span> dvwaCurrentUser() <span style="color:#ff79c6">.</span> <span style="color:#f1fa8c">&#34;&#39;;&#34;</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd;font-style:italic">$result</span> <span style="color:#ff79c6">=</span> mysqli_query(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>],  <span style="color:#8be9fd;font-style:italic">$insert</span> ) <span style="color:#ff79c6">or</span> <span style="color:#ff79c6">die</span>( <span style="color:#f1fa8c">&#39;&lt;pre&gt;&#39;</span> <span style="color:#ff79c6">.</span> ((is_object(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>])) <span style="color:#ff79c6">?</span> mysqli_error(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>]) <span style="color:#ff79c6">:</span> ((<span style="color:#8be9fd;font-style:italic">$___mysqli_res</span> <span style="color:#ff79c6">=</span> mysqli_connect_error()) <span style="color:#ff79c6">?</span> <span style="color:#8be9fd;font-style:italic">$___mysqli_res</span> <span style="color:#ff79c6">:</span> <span style="color:#ff79c6">false</span>)) <span style="color:#ff79c6">.</span> <span style="color:#f1fa8c">&#39;&lt;/pre&gt;&#39;</span> );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#6272a4">// Feedback for the end user
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        <span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;&lt;pre&gt;Password Changed.&lt;/pre&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#6272a4">// Issue with the passwords matching
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        <span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;&lt;pre&gt;Passwords did not match.&lt;/pre&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd;font-style:italic">$hide_form</span> <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">false</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    ((is_null(<span style="color:#8be9fd;font-style:italic">$___mysqli_res</span> <span style="color:#ff79c6">=</span> mysqli_close(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>]))) <span style="color:#ff79c6">?</span> <span style="color:#ff79c6">false</span> <span style="color:#ff79c6">:</span> <span style="color:#8be9fd;font-style:italic">$___mysqli_res</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">?&gt;</span> 
+</span></span></code></pre></div><blockquote>
+<p>Medium级别的代码在第二步验证时，参加了对参数passed_captcha的检查，如果参数值为true，则认为用户已经通过了验证码检查，然而用户依然可以通过伪造参数绕过验证，本质上来说，这与Low级别的验证没有任何区别。</p>
+</blockquote>
+<h4 id="通过构造参数绕过验证过程-1">通过构造参数绕过验证过程</h4>
+<p>对页面进行抓包
+
+  <img src="/img/InsecureSCAPTCHA/2-1.png" alt="初级页面">
+
+
+更改<code>step</code>参数，增加<code>passed_captcha=true</code>参数，绕过验证码。
+
+  <img src="/img/InsecureSCAPTCHA/2-2.png" alt="初级页面">
+
+
+密码修改成功：
+
+  <img src="/img/InsecureSCAPTCHA/2-3.png" alt="初级页面">
+
+</p>
+<h2 id="high-级别破解">High 级别破解</h2>
+<blockquote>
+<p>查看源代码</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff79c6">&lt;?</span>php
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span>( isset( <span style="color:#8be9fd;font-style:italic">$_POST</span>[ <span style="color:#f1fa8c">&#39;Change&#39;</span> ] ) ) {
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// Hide the CAPTCHA form
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">$hide_form</span> <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">true</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// Get input
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">$pass_new</span>  <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">$_POST</span>[ <span style="color:#f1fa8c">&#39;password_new&#39;</span> ];
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">$pass_conf</span> <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">$_POST</span>[ <span style="color:#f1fa8c">&#39;password_conf&#39;</span> ];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// Check CAPTCHA from 3rd party
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">$resp</span> <span style="color:#ff79c6">=</span> recaptcha_check_answer(
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd;font-style:italic">$_DVWA</span>[ <span style="color:#f1fa8c">&#39;recaptcha_private_key&#39;</span> ],
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd;font-style:italic">$_POST</span>[<span style="color:#f1fa8c">&#39;g-recaptcha-response&#39;</span>]
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> (
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd;font-style:italic">$resp</span> <span style="color:#ff79c6">||</span> 
+</span></span><span style="display:flex;"><span>        (
+</span></span><span style="display:flex;"><span>            <span style="color:#8be9fd;font-style:italic">$_POST</span>[ <span style="color:#f1fa8c">&#39;g-recaptcha-response&#39;</span> ] <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#39;hidd3n_valu3&#39;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#8be9fd;font-style:italic">$_SERVER</span>[ <span style="color:#f1fa8c">&#39;HTTP_USER_AGENT&#39;</span> ] <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#39;reCAPTCHA&#39;</span>
+</span></span><span style="display:flex;"><span>        )
+</span></span><span style="display:flex;"><span>    ){
+</span></span><span style="display:flex;"><span>        <span style="color:#6272a4">// CAPTCHA was correct. Do both new passwords match?
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        <span style="color:#ff79c6">if</span> (<span style="color:#8be9fd;font-style:italic">$pass_new</span> <span style="color:#ff79c6">==</span> <span style="color:#8be9fd;font-style:italic">$pass_conf</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#8be9fd;font-style:italic">$pass_new</span> <span style="color:#ff79c6">=</span> ((isset(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>]) <span style="color:#ff79c6">&amp;&amp;</span> is_object(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>])) <span style="color:#ff79c6">?</span> mysqli_real_escape_string(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>],  <span style="color:#8be9fd;font-style:italic">$pass_new</span> ) <span style="color:#ff79c6">:</span> ((trigger_error(<span style="color:#f1fa8c">&#34;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&#34;</span>, E_USER_ERROR)) <span style="color:#ff79c6">?</span> <span style="color:#f1fa8c">&#34;&#34;</span> <span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;&#34;</span>));
+</span></span><span style="display:flex;"><span>            <span style="color:#8be9fd;font-style:italic">$pass_new</span> <span style="color:#ff79c6">=</span> md5( <span style="color:#8be9fd;font-style:italic">$pass_new</span> );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#6272a4">// Update database
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>            <span style="color:#8be9fd;font-style:italic">$insert</span> <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;UPDATE `users` SET password = &#39;</span><span style="color:#f1fa8c">$pass_new</span><span style="color:#f1fa8c">&#39; WHERE user = &#39;&#34;</span> <span style="color:#ff79c6">.</span> dvwaCurrentUser() <span style="color:#ff79c6">.</span> <span style="color:#f1fa8c">&#34;&#39; LIMIT 1;&#34;</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#8be9fd;font-style:italic">$result</span> <span style="color:#ff79c6">=</span> mysqli_query(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>],  <span style="color:#8be9fd;font-style:italic">$insert</span> ) <span style="color:#ff79c6">or</span> <span style="color:#ff79c6">die</span>( <span style="color:#f1fa8c">&#39;&lt;pre&gt;&#39;</span> <span style="color:#ff79c6">.</span> ((is_object(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>])) <span style="color:#ff79c6">?</span> mysqli_error(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>]) <span style="color:#ff79c6">:</span> ((<span style="color:#8be9fd;font-style:italic">$___mysqli_res</span> <span style="color:#ff79c6">=</span> mysqli_connect_error()) <span style="color:#ff79c6">?</span> <span style="color:#8be9fd;font-style:italic">$___mysqli_res</span> <span style="color:#ff79c6">:</span> <span style="color:#ff79c6">false</span>)) <span style="color:#ff79c6">.</span> <span style="color:#f1fa8c">&#39;&lt;/pre&gt;&#39;</span> );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#6272a4">// Feedback for user
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>            <span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;&lt;pre&gt;Password Changed.&lt;/pre&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        } <span style="color:#ff79c6">else</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#6272a4">// Ops. Password mismatch
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>            <span style="color:#8be9fd;font-style:italic">$html</span>     <span style="color:#ff79c6">.=</span> <span style="color:#f1fa8c">&#34;&lt;pre&gt;Both passwords must match.&lt;/pre&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#8be9fd;font-style:italic">$hide_form</span> <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">false</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    } <span style="color:#ff79c6">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#6272a4">// What happens when the CAPTCHA was entered incorrectly
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        <span style="color:#8be9fd;font-style:italic">$html</span>     <span style="color:#ff79c6">.=</span> <span style="color:#f1fa8c">&#34;&lt;pre&gt;&lt;br /&gt;The CAPTCHA was incorrect. Please try again.&lt;/pre&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd;font-style:italic">$hide_form</span> <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">false</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    ((is_null(<span style="color:#8be9fd;font-style:italic">$___mysqli_res</span> <span style="color:#ff79c6">=</span> mysqli_close(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>]))) <span style="color:#ff79c6">?</span> <span style="color:#ff79c6">false</span> <span style="color:#ff79c6">:</span> <span style="color:#8be9fd;font-style:italic">$___mysqli_res</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">// Generate Anti-CSRF token
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>generateSessionToken();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">?&gt;</span> 
+</span></span></code></pre></div><blockquote>
+<p>服务器的验证逻辑是当$resp（这里是指谷歌返回的验证结果）是false，并且参数recaptcha_response_field不等于hidd3n_valu3（或者http包头的User-Agent参数不等于reCAPTCHA）时，就认为验证码输入错误，反之则认为已经通过了验证码的检查。</p>
+</blockquote>
+<pre><code>搞清楚了验证逻辑，剩下就是伪造绕过了，由于$resp参数我们无法控制，所以重心放在参数recaptcha_response_field、User-Agent上。
+</code></pre>
+<h4 id="通过构造参数绕过验证过程-2">通过构造参数绕过验证过程</h4>
+<p>第一步依旧是抓包：
+
+  <img src="/img/InsecureSCAPTCHA/3-1.png" alt="初级页面">
+
+</p>
+<p>添加<code>recaptcha_response_field=hidd3n_valu3</code>以及更改http包头的User-Agent 为<code>reCAPTCHA</code>：
+
+  <img src="/img/InsecureSCAPTCHA/3-2.png" alt="初级页面">
+
+</p>
+<p>密码修改成功：
+
+  <img src="/img/InsecureSCAPTCHA/2-3.png" alt="初级页面">
+
+</p>
+
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2022/6/java%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" data-toggle="tooltip" data-placement="top" title="java环境配置">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2022/6/File%20Upload/" data-toggle="tooltip" data-placement="top" title="File Upload ---dvwa">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+                
+
+            </div>
+
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/dvwa" title="dvwa">
+                            dvwa
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E5%B7%A5%E5%85%B7" title="工具">
+                            工具
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95" title="渗透测试">
+                            渗透测试
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/%E9%9D%B6%E5%9C%BA" title="靶场">
+                            靶场
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">                  
+                    
+                    <li>
+                        <a href="mailto:2112825321@qq.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                    
+                    
+                    
+                    
+
+		            
+                    
+                    <li>
+                        <a target="_blank" href="/your%20wechat%20qr%20code%20image">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-weixin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		            
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/fan-bu-fan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		            
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            
+           
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="FELL &amp; ENJOY" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fas fa-circle fa-stack-2x"></i>
+                               <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+            
+             </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; FELL &amp; ENJOY 2022
+                    <br>
+                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    function generateCatalog(selector) {
+
+        
+        
+        
+        
+            _containerSelector = 'div.post-container'
+        
+
+        
+        var P = $(_containerSelector), a, n, t, l, i, c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        
+        $(selector).html('')
+
+        
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#" + $(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
+            l = $('<li class="' + n + '_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    
+    $(".catalog-toggle").click((function (e) {
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    
+
+
+    loadAsync("\/js\/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+</body>
+</html>

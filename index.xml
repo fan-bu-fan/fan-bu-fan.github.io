@@ -97,6 +97,15 @@
     </item>
     
     <item>
+      <title>Insecure CAPTCHA ---dvwa</title>
+      <link>https://fan-bu-fan.github.io/2022/6/Insecure%20CAPTCHA/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fan-bu-fan.github.io/2022/6/Insecure%20CAPTCHA/</guid>
+      <description>Insecure CAPTCHA 简介 Insecure CAPTCHA，意思是不安全的验证码，CAPTCHA是Completely Automated Public Turing Test to Tell Computers and Humans Apart (全自动区分计算机和人类的图灵测试)</description>
+    </item>
+    
+    <item>
       <title>java环境配置</title>
       <link>https://fan-bu-fan.github.io/2022/6/java%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
