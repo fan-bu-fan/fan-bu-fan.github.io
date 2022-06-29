@@ -7,6 +7,15 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language><atom:link href="https://fan-bu-fan.github.io/tags/%E9%9D%B6%E5%9C%BA/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title> File Inclusion --dvwa</title>
+      <link>https://fan-bu-fan.github.io/2022/6/File%20Inclusion/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fan-bu-fan.github.io/2022/6/File%20Inclusion/</guid>
+      <description>文件包含简介 File Inclusion，意思是文件包含（漏洞），是指当服务器开启allow_url_include选项时，就可以通过php的某些特</description>
+    </item>
+    
+    <item>
       <title>Brute Force ---dvwa</title>
       <link>https://fan-bu-fan.github.io/2022/6/brute%20force/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
