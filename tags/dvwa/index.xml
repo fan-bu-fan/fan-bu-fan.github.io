@@ -114,5 +114,14 @@
       <description>跨站脚本攻击XSS简介 跨站脚本攻击XSS，全称Cross Site Scripting，是指攻击者在有漏洞的Web页面中注入恶意的代码脚本，当受害者访</description>
     </item>
     
+    <item>
+      <title>跨站脚本攻击（存储型）---dvwa</title>
+      <link>https://fan-bu-fan.github.io/2022/6/xss(reflected)/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fan-bu-fan.github.io/2022/6/xss(reflected)/</guid>
+      <description>强烈建议先学习下反射型XSS 存储型xss简介 存储型XSS是一种持久化的XSS，它与反射型XSS最大的不同就是服务器在接收到我们的恶意脚本时会</description>
+    </item>
+    
   </channel>
 </rss>

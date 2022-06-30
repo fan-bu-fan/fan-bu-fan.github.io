@@ -15,15 +15,15 @@
     
 
     
-    <meta name="title" content="跨站脚本攻击（反射型）---dvwa" />
-    <meta property="og:title" content="跨站脚本攻击（反射型）---dvwa" />
-    <meta property="twitter:title" content="跨站脚本攻击（反射型）---dvwa" />
+    <meta name="title" content="跨站脚本攻击（存储型）---dvwa" />
+    <meta property="og:title" content="跨站脚本攻击（存储型）---dvwa" />
+    <meta property="twitter:title" content="跨站脚本攻击（存储型）---dvwa" />
     
 
     
-    <meta name="description" content="主要用来记录dvwa靶场 跨站脚本攻击（反射型）破解方式">
-    <meta property="og:description" content="主要用来记录dvwa靶场 跨站脚本攻击（反射型）破解方式" />
-    <meta property="twitter:description" content="主要用来记录dvwa靶场 跨站脚本攻击（反射型）破解方式" />
+    <meta name="description" content="主要用来记录dvwa靶场 跨站脚本攻击（存储型）破解方式">
+    <meta property="og:description" content="主要用来记录dvwa靶场 跨站脚本攻击（存储型）破解方式" />
+    <meta property="twitter:description" content="主要用来记录dvwa靶场 跨站脚本攻击（存储型）破解方式" />
     
 
     
@@ -34,7 +34,7 @@
     <meta name="keyword"  content="帆帆, fanfan&#39;s的博客,个人网站,编程,网络安全,杂谈,瞎琢磨">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>跨站脚本攻击（反射型）---dvwa | 帆帆的博客 | fanfan&#39;s Blog</title>
+    <title>跨站脚本攻击（存储型）---dvwa | 帆帆的博客 | fanfan&#39;s Blog</title>
 
     <link rel="canonical" href="/2022/6/xss%28reflected%29/">
 
@@ -175,7 +175,7 @@
                         </a>
                         
                     </div>
-                    <h1>跨站脚本攻击（反射型）---dvwa</h1>
+                    <h1>跨站脚本攻击（存储型）---dvwa</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         
@@ -210,78 +210,107 @@
                 post-container">
 
                 
-                <h2 id="跨站脚本攻击xss简介">跨站脚本攻击XSS简介</h2>
-<blockquote>
-<p>跨站脚本攻击XSS，全称Cross Site Scripting，是指攻击者在有漏洞的Web页面中注入恶意的代码脚本，当受害者访问该页面时，恶意代码会在其浏览器上执行。XSS漏洞通常是通过php的输出函数将javascript代码输出到html页面中，通过用户本地浏览器执行的。</p>
+                <blockquote>
+<p>强烈建议先学习下<a href="https://fan-bu-fan.github.io/2022/6/xss(reflected)/">反射型XSS</a></p>
 </blockquote>
-<pre><code>用大白话来说，XSS的攻击方式就是想办法“教唆”用户的浏览器去执行一些这个网页中原本不存在的前端代码。
-</code></pre>
-<h2 id="利用xss漏洞的常见用途">利用XSS漏洞的常见用途</h2>
+<h2 id="存储型xss简介">存储型xss简介</h2>
 <blockquote>
-<p>①盗取用户cookies</p>
-<p>②会话劫持</p>
-<p>③流量劫持</p>
-<p>④网页挂马</p>
-<p>⑤DDOS攻击</p>
-<p>⑥提升权限</p>
+<p>存储型XSS是一种持久化的XSS，它与反射型XSS最大的不同就是服务器在接收到我们的恶意脚本时会将其做一些处理，代码是<code>存储在服务器</code>中的。
+比如微博、留言板这种，通常就是存储型XSS。当有人在留言内容中插入恶意脚本时，由于服务器要向每一个访客展示之前的留言内容，每次访问时都会触发代码执行。</p>
 </blockquote>
-<h2 id="反射型reflectedxss">反射型（Reflected）XSS</h2>
-<p>反射型XSS是一种<code>非持久性XSS</code>，也就是攻击相对于访问者而言是<code>一次性</code>的</p>
-<p>具体表现就是恶意脚本通过URL的方式传递给了服务器，而服务器则只是不加处理的脚本“反射”回访者的浏览器而使访问者的浏览器执行响应的脚本。</p>
 <h2 id="low-级别破解">Low 级别破解</h2>
 <blockquote>
 <p>查看源码</p>
 </blockquote>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff79c6">&lt;?</span>php
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>header (<span style="color:#f1fa8c">&#34;X-XSS-Protection: 0&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span>( isset( <span style="color:#8be9fd;font-style:italic">$_POST</span>[ <span style="color:#f1fa8c">&#39;btnSign&#39;</span> ] ) ) {
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// Get input
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">$message</span> <span style="color:#ff79c6">=</span> trim( <span style="color:#8be9fd;font-style:italic">$_POST</span>[ <span style="color:#f1fa8c">&#39;mtxMessage&#39;</span> ] );
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">$name</span>    <span style="color:#ff79c6">=</span> trim( <span style="color:#8be9fd;font-style:italic">$_POST</span>[ <span style="color:#f1fa8c">&#39;txtName&#39;</span> ] );
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">// Is there any input?
-</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#ff79c6">if</span>( array_key_exists( <span style="color:#f1fa8c">&#34;name&#34;</span>, <span style="color:#8be9fd;font-style:italic">$_GET</span> ) <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#8be9fd;font-style:italic">$_GET</span>[ <span style="color:#f1fa8c">&#39;name&#39;</span> ] <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">NULL</span> ) {
-</span></span><span style="display:flex;"><span>   <span style="color:#6272a4">// Feedback for end user
-</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>   <span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#39;&lt;pre&gt;Hello &#39;</span> <span style="color:#ff79c6">.</span> <span style="color:#8be9fd;font-style:italic">$_GET</span>[ <span style="color:#f1fa8c">&#39;name&#39;</span> ] <span style="color:#ff79c6">.</span> <span style="color:#f1fa8c">&#39;&lt;/pre&gt;&#39;</span>;
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// Sanitize message input
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">$message</span> <span style="color:#ff79c6">=</span> stripslashes( <span style="color:#8be9fd;font-style:italic">$message</span> );
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">$message</span> <span style="color:#ff79c6">=</span> ((isset(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>]) <span style="color:#ff79c6">&amp;&amp;</span> is_object(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>])) <span style="color:#ff79c6">?</span> mysqli_real_escape_string(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>],  <span style="color:#8be9fd;font-style:italic">$message</span> ) <span style="color:#ff79c6">:</span> ((trigger_error(<span style="color:#f1fa8c">&#34;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&#34;</span>, E_USER_ERROR)) <span style="color:#ff79c6">?</span> <span style="color:#f1fa8c">&#34;&#34;</span> <span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;&#34;</span>));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// Sanitize name input
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">$name</span> <span style="color:#ff79c6">=</span> ((isset(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>]) <span style="color:#ff79c6">&amp;&amp;</span> is_object(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>])) <span style="color:#ff79c6">?</span> mysqli_real_escape_string(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>],  <span style="color:#8be9fd;font-style:italic">$name</span> ) <span style="color:#ff79c6">:</span> ((trigger_error(<span style="color:#f1fa8c">&#34;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&#34;</span>, E_USER_ERROR)) <span style="color:#ff79c6">?</span> <span style="color:#f1fa8c">&#34;&#34;</span> <span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;&#34;</span>));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// Update database
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">$query</span>  <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;INSERT INTO guestbook ( comment, name ) VALUES ( &#39;</span><span style="color:#f1fa8c">$message</span><span style="color:#f1fa8c">&#39;, &#39;</span><span style="color:#f1fa8c">$name</span><span style="color:#f1fa8c">&#39; );&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">$result</span> <span style="color:#ff79c6">=</span> mysqli_query(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>],  <span style="color:#8be9fd;font-style:italic">$query</span> ) <span style="color:#ff79c6">or</span> <span style="color:#ff79c6">die</span>( <span style="color:#f1fa8c">&#39;&lt;pre&gt;&#39;</span> <span style="color:#ff79c6">.</span> ((is_object(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>])) <span style="color:#ff79c6">?</span> mysqli_error(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>]) <span style="color:#ff79c6">:</span> ((<span style="color:#8be9fd;font-style:italic">$___mysqli_res</span> <span style="color:#ff79c6">=</span> mysqli_connect_error()) <span style="color:#ff79c6">?</span> <span style="color:#8be9fd;font-style:italic">$___mysqli_res</span> <span style="color:#ff79c6">:</span> <span style="color:#ff79c6">false</span>)) <span style="color:#ff79c6">.</span> <span style="color:#f1fa8c">&#39;&lt;/pre&gt;&#39;</span> );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">//mysql_close();
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#ff79c6">?&gt;</span> 
 </span></span></code></pre></div><blockquote>
 <p>没有过滤机制，只是检查下是否为空,这样就存在很明显的XSS漏洞了</p>
 </blockquote>
-<p>输入<code>&lt;script&gt;alert(1)&lt;/script&gt;</code> 可以看到会出来一个弹窗,这个就是反射型XSS的攻击，服务器并未执行这个脚本，只是因为服务器存在漏洞，使得脚本反射给了浏览器执行，通常会将恶意脚本放在URL中让用户进行执行。</p>
-<p>
-  <img src="/img/xss%28reflected%29/1-1.png" alt="直接输入">
+<p>输入<code>&lt;script&gt;alert(1)&lt;/script&gt;</code> 可以看到会出来一个弹窗
+
+  <img src="/img/xss%28stored%29/1-2.png" alt="直接输入">
+
+
+
+  <img src="/img/xss%28stored%29/1-1.png" alt="直接输入">
 
 </p>
-<p><code>&lt;script&gt;alert(document.cookie)&lt;/script&gt;</code> 可以把浏览器的cookie给反射出来
-用于劫持流量,实现恶意跳转:<code>&lt;script&gt;document.location.href=&quot;http://www.baidu.com&quot;&lt;/script&gt;</code> 访问此链接,所访问的网站就会跳转到百度的首页</p>
+<p>接下来我们修改下Payload，弹出用户的cookie.输入<code>&lt;script&gt;alert(document.cookie)&lt;/script&gt;</code>
+
+  <img src="/img/xss%28stored%29/1-3.png" alt="直接输入">
+
+
+
+  <img src="/img/xss%28stored%29/1-4.png" alt="直接输入">
+
+</p>
 <h2 id="medium-级别破解">Medium 级别破解</h2>
 <blockquote>
 <p>查看源码</p>
 </blockquote>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff79c6">&lt;?</span>php
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>header (<span style="color:#f1fa8c">&#34;X-XSS-Protection: 0&#34;</span>);
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">// Is there any input?
-</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#ff79c6">if</span>( array_key_exists( <span style="color:#f1fa8c">&#34;name&#34;</span>, <span style="color:#8be9fd;font-style:italic">$_GET</span> ) <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#8be9fd;font-style:italic">$_GET</span>[ <span style="color:#f1fa8c">&#39;name&#39;</span> ] <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">NULL</span> ) {
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span>( isset( <span style="color:#8be9fd;font-style:italic">$_POST</span>[ <span style="color:#f1fa8c">&#39;btnSign&#39;</span> ] ) ) {
 </span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// Get input
-</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">$name</span> <span style="color:#ff79c6">=</span> str_replace( <span style="color:#f1fa8c">&#39;&lt;script&gt;&#39;</span>, <span style="color:#f1fa8c">&#39;&#39;</span>, <span style="color:#8be9fd;font-style:italic">$_GET</span>[ <span style="color:#f1fa8c">&#39;name&#39;</span> ] );
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">$message</span> <span style="color:#ff79c6">=</span> trim( <span style="color:#8be9fd;font-style:italic">$_POST</span>[ <span style="color:#f1fa8c">&#39;mtxMessage&#39;</span> ] );
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">$name</span>    <span style="color:#ff79c6">=</span> trim( <span style="color:#8be9fd;font-style:italic">$_POST</span>[ <span style="color:#f1fa8c">&#39;txtName&#39;</span> ] );
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// Feedback for end user
-</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;&lt;pre&gt;Hello </span><span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">name</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&lt;/pre&gt;&#34;</span>;
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// Sanitize message input
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">$message</span> <span style="color:#ff79c6">=</span> strip_tags( addslashes( <span style="color:#8be9fd;font-style:italic">$message</span> ) );
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">$message</span> <span style="color:#ff79c6">=</span> ((isset(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>]) <span style="color:#ff79c6">&amp;&amp;</span> is_object(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>])) <span style="color:#ff79c6">?</span> mysqli_real_escape_string(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>],  <span style="color:#8be9fd;font-style:italic">$message</span> ) <span style="color:#ff79c6">:</span> ((trigger_error(<span style="color:#f1fa8c">&#34;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&#34;</span>, E_USER_ERROR)) <span style="color:#ff79c6">?</span> <span style="color:#f1fa8c">&#34;&#34;</span> <span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;&#34;</span>));
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">$message</span> <span style="color:#ff79c6">=</span> htmlspecialchars( <span style="color:#8be9fd;font-style:italic">$message</span> );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// Sanitize name input
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">$name</span> <span style="color:#ff79c6">=</span> str_replace( <span style="color:#f1fa8c">&#39;&lt;script&gt;&#39;</span>, <span style="color:#f1fa8c">&#39;&#39;</span>, <span style="color:#8be9fd;font-style:italic">$name</span> );
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">$name</span> <span style="color:#ff79c6">=</span> ((isset(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>]) <span style="color:#ff79c6">&amp;&amp;</span> is_object(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>])) <span style="color:#ff79c6">?</span> mysqli_real_escape_string(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>],  <span style="color:#8be9fd;font-style:italic">$name</span> ) <span style="color:#ff79c6">:</span> ((trigger_error(<span style="color:#f1fa8c">&#34;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&#34;</span>, E_USER_ERROR)) <span style="color:#ff79c6">?</span> <span style="color:#f1fa8c">&#34;&#34;</span> <span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;&#34;</span>));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// Update database
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">$query</span>  <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;INSERT INTO guestbook ( comment, name ) VALUES ( &#39;</span><span style="color:#f1fa8c">$message</span><span style="color:#f1fa8c">&#39;, &#39;</span><span style="color:#f1fa8c">$name</span><span style="color:#f1fa8c">&#39; );&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">$result</span> <span style="color:#ff79c6">=</span> mysqli_query(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>],  <span style="color:#8be9fd;font-style:italic">$query</span> ) <span style="color:#ff79c6">or</span> <span style="color:#ff79c6">die</span>( <span style="color:#f1fa8c">&#39;&lt;pre&gt;&#39;</span> <span style="color:#ff79c6">.</span> ((is_object(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>])) <span style="color:#ff79c6">?</span> mysqli_error(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>]) <span style="color:#ff79c6">:</span> ((<span style="color:#8be9fd;font-style:italic">$___mysqli_res</span> <span style="color:#ff79c6">=</span> mysqli_connect_error()) <span style="color:#ff79c6">?</span> <span style="color:#8be9fd;font-style:italic">$___mysqli_res</span> <span style="color:#ff79c6">:</span> <span style="color:#ff79c6">false</span>)) <span style="color:#ff79c6">.</span> <span style="color:#f1fa8c">&#39;&lt;/pre&gt;&#39;</span> );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">//mysql_close();
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#ff79c6">?&gt;</span> 
 </span></span></code></pre></div><blockquote>
-<p>只是对<code>&lt;script&gt;</code>进行了过滤</p>
+<p>剥去message的HTML、XML以及PHP的标签。
+对message采用htmlspecialchars()函数进行预定义字符转换为HTML实体。
+对name的<code>&lt;script&gt;</code>进行替换删除。</p>
 </blockquote>
-<p>我们可以用<code>&lt;Script&gt;</code>大小写来绕过弹个窗:<code>&lt;Script&gt;alert(1)&lt;/Script&gt;</code>&rsquo;
+<p>上面代码对message过滤的很严，基本上把攻击的路堵死了。但是对于name只做了关键字过滤，因此可以对name区域下手</p>
+<p>但是name在Web页面输入端对字数有限制，同样我们可以通过burp来修改发送报文，注意下<code>&lt;Script&gt;</code>用大小写来进行绕过</p>
+<p>
+  <img src="/img/xss%28stored%29/2-1.png" alt="直接输入">
 
-  <img src="/img/xss%28reflected%29/2-1.png" alt="直接输入">
+
+我们可以用<code>&lt;Script&gt;</code>大小写来绕过弹个窗:<code>&lt;Script&gt;alert(1)&lt;/Script&gt;</code>&rsquo;
+
+  <img src="/img/xss%28stored%29/2-2.png" alt="直接输入">
 
 
-也可以通过双写来绕过<code>&lt;scr&lt;script&gt;ipt&gt;alert(1)&lt;/script&gt;</code>
 
-  <img src="/img/xss%28reflected%29/2-2.png" alt="直接输入">
+  <img src="/img/xss%28stored%29/2-3.png" alt="直接输入">
 
 </p>
 <h2 id="high-级别破解">High 级别破解</h2>
@@ -290,44 +319,43 @@
 </blockquote>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff79c6">&lt;?</span>php
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>header (<span style="color:#f1fa8c">&#34;X-XSS-Protection: 0&#34;</span>);
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">// Is there any input?
-</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#ff79c6">if</span>( array_key_exists( <span style="color:#f1fa8c">&#34;name&#34;</span>, <span style="color:#8be9fd;font-style:italic">$_GET</span> ) <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#8be9fd;font-style:italic">$_GET</span>[ <span style="color:#f1fa8c">&#39;name&#39;</span> ] <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">NULL</span> ) {
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span>( isset( <span style="color:#8be9fd;font-style:italic">$_POST</span>[ <span style="color:#f1fa8c">&#39;btnSign&#39;</span> ] ) ) {
 </span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// Get input
-</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">$name</span> <span style="color:#ff79c6">=</span> preg_replace( <span style="color:#f1fa8c">&#39;/&lt;(.*)s(.*)c(.*)r(.*)i(.*)p(.*)t/i&#39;</span>, <span style="color:#f1fa8c">&#39;&#39;</span>, <span style="color:#8be9fd;font-style:italic">$_GET</span>[ <span style="color:#f1fa8c">&#39;name&#39;</span> ] );
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">$message</span> <span style="color:#ff79c6">=</span> trim( <span style="color:#8be9fd;font-style:italic">$_POST</span>[ <span style="color:#f1fa8c">&#39;mtxMessage&#39;</span> ] );
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">$name</span>    <span style="color:#ff79c6">=</span> trim( <span style="color:#8be9fd;font-style:italic">$_POST</span>[ <span style="color:#f1fa8c">&#39;txtName&#39;</span> ] );
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// Feedback for end user
-</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;&lt;pre&gt;Hello </span><span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">name</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&lt;/pre&gt;&#34;</span>;
-</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// Sanitize message input
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">$message</span> <span style="color:#ff79c6">=</span> strip_tags( addslashes( <span style="color:#8be9fd;font-style:italic">$message</span> ) );
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">$message</span> <span style="color:#ff79c6">=</span> ((isset(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>]) <span style="color:#ff79c6">&amp;&amp;</span> is_object(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>])) <span style="color:#ff79c6">?</span> mysqli_real_escape_string(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>],  <span style="color:#8be9fd;font-style:italic">$message</span> ) <span style="color:#ff79c6">:</span> ((trigger_error(<span style="color:#f1fa8c">&#34;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&#34;</span>, E_USER_ERROR)) <span style="color:#ff79c6">?</span> <span style="color:#f1fa8c">&#34;&#34;</span> <span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;&#34;</span>));
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">$message</span> <span style="color:#ff79c6">=</span> htmlspecialchars( <span style="color:#8be9fd;font-style:italic">$message</span> );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// Sanitize name input
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">$name</span> <span style="color:#ff79c6">=</span> preg_replace( <span style="color:#f1fa8c">&#39;/&lt;(.*)s(.*)c(.*)r(.*)i(.*)p(.*)t/i&#39;</span>, <span style="color:#f1fa8c">&#39;&#39;</span>, <span style="color:#8be9fd;font-style:italic">$name</span> );
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">$name</span> <span style="color:#ff79c6">=</span> ((isset(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>]) <span style="color:#ff79c6">&amp;&amp;</span> is_object(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>])) <span style="color:#ff79c6">?</span> mysqli_real_escape_string(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>],  <span style="color:#8be9fd;font-style:italic">$name</span> ) <span style="color:#ff79c6">:</span> ((trigger_error(<span style="color:#f1fa8c">&#34;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&#34;</span>, E_USER_ERROR)) <span style="color:#ff79c6">?</span> <span style="color:#f1fa8c">&#34;&#34;</span> <span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;&#34;</span>));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// Update database
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">$query</span>  <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;INSERT INTO guestbook ( comment, name ) VALUES ( &#39;</span><span style="color:#f1fa8c">$message</span><span style="color:#f1fa8c">&#39;, &#39;</span><span style="color:#f1fa8c">$name</span><span style="color:#f1fa8c">&#39; );&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">$result</span> <span style="color:#ff79c6">=</span> mysqli_query(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>],  <span style="color:#8be9fd;font-style:italic">$query</span> ) <span style="color:#ff79c6">or</span> <span style="color:#ff79c6">die</span>( <span style="color:#f1fa8c">&#39;&lt;pre&gt;&#39;</span> <span style="color:#ff79c6">.</span> ((is_object(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>])) <span style="color:#ff79c6">?</span> mysqli_error(<span style="color:#8be9fd;font-style:italic">$GLOBALS</span>[<span style="color:#f1fa8c">&#34;___mysqli_ston&#34;</span>]) <span style="color:#ff79c6">:</span> ((<span style="color:#8be9fd;font-style:italic">$___mysqli_res</span> <span style="color:#ff79c6">=</span> mysqli_connect_error()) <span style="color:#ff79c6">?</span> <span style="color:#8be9fd;font-style:italic">$___mysqli_res</span> <span style="color:#ff79c6">:</span> <span style="color:#ff79c6">false</span>)) <span style="color:#ff79c6">.</span> <span style="color:#f1fa8c">&#39;&lt;/pre&gt;&#39;</span> );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">//mysql_close();
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#ff79c6">?&gt;</span> 
 </span></span></code></pre></div><blockquote>
-<p>代码上的变化，利用正则表达式把<code>&lt;script&gt;</code>彻底堵死了
-但并不是只有script标签才可以插入代码，还可以通过其他方式来绕过。</p>
+<p>这个级别对name的过滤进行了些增强，把<code>&lt;script&gt;</code>做了正则表达式，如何绕过在反射型XSS里面也介绍了，这里就简单演示一种，利用<code>&lt;image&gt;</code>标签来绕过</p>
 </blockquote>
-<h4 id="利用img标签绕过">利用<code>&lt;img&gt;</code>标签绕过</h4>
-<pre><code>&lt;img&gt;标签有个功能特性，当指定图片不存在时，执行onerror后面的代码
-</code></pre>
-<p>输入<code>&lt;img src='1' onerror='alert(1)'&gt;</code></p>
-<p>
-  <img src="/img/xss%28reflected%29/3-1.png" alt="直接输入">
+<p>同样我们可以通过burp来修改name中的值发送报文，注意下用<code>&lt;img&gt;</code>用大小写来进行绕过
 
-</p>
-<h4 id="利用onmousemove标签绕过">利用<code>&lt;onmousemove&gt;</code>标签绕过</h4>
-<pre><code>&lt;onmousemove&gt;标签可以监控鼠标的移动，移动时执行代码
-</code></pre>
-<p>输入<code>&lt;a onmousemove='alert(1)'&gt;</code>
+  <img src="/img/xss%28stored%29/3-1.png" alt="直接输入">
 
-  <img src="/img/xss%28reflected%29/3-2.png" alt="直接输入">
 
-</p>
-<p>上面两种方式，都可以绕过<sctrip>标签被正则控制的情况，如果服务器对代码中的关键字（比如alert）进行过滤的话，我们可以尝试将关键字进行编码后再插入。
-不过直接显示编码是不能被浏览器执行的，我们可以用另一个语句eval()来实现，eval()会将编码过的语句解码后再执行。</p>
-<p>例如alert经过Unicode编码后就是<code>\u0061\u006c\u0065\u0072\u0074</code></p>
-<p>我们结合上面<code>&lt;image&gt;</code>标签运行下<code>&lt;img src='1' onerror='eval(\u0061\u006c\u0065\u0072\u0074(1))'&gt;</code>，弹窗成功
+输入<code>&lt;img src='1' onerror='alert(1)'&gt;</code>
 
-  <img src="/img/xss%28reflected%29/3-3.png" alt="直接输入">
+  <img src="/img/xss%28stored%29/3-2.png" alt="直接输入">
+
+
+
+  <img src="/img/xss%28stored%29/3-3.png" alt="直接输入">
 
 </p>
 
@@ -339,7 +367,7 @@
                     
                     
                     <li class="next">
-                        <a href="/2022/6/weekSession/" data-toggle="tooltip" data-placement="top" title="Weak Session IDs---dvwa">Next
+                        <a href="/2022/6/xss%28reflected%29/" data-toggle="tooltip" data-placement="top" title="跨站脚本攻击（反射型）---dvwa">Next
                             Post &rarr;</a>
                     </li>
                     
