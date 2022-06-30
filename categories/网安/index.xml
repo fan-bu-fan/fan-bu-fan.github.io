@@ -114,5 +114,14 @@
       <description>前置条件 浏览器安装hackbar插件 Weak Session IDs 简介 当用户登录后，在服务器就会创建一个会话(session)，叫做会话控制，接着访问页面的时候就不</description>
     </item>
     
+    <item>
+      <title>跨站脚本攻击（反射型）---dvwa</title>
+      <link>https://fan-bu-fan.github.io/2022/6/xss(reflected)/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fan-bu-fan.github.io/2022/6/xss(reflected)/</guid>
+      <description>跨站脚本攻击XSS简介 跨站脚本攻击XSS，全称Cross Site Scripting，是指攻击者在有漏洞的Web页面中注入恶意的代码脚本，当受害者访</description>
+    </item>
+    
   </channel>
 </rss>
