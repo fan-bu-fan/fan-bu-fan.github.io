@@ -15,15 +15,15 @@
     
 
     
-    <meta name="title" content="跨站脚本攻击（反射型）---dvwa" />
-    <meta property="og:title" content="跨站脚本攻击（反射型）---dvwa" />
-    <meta property="twitter:title" content="跨站脚本攻击（反射型）---dvwa" />
+    <meta name="title" content="跨站脚本攻击（dom）---dvwa" />
+    <meta property="og:title" content="跨站脚本攻击（dom）---dvwa" />
+    <meta property="twitter:title" content="跨站脚本攻击（dom）---dvwa" />
     
 
     
-    <meta name="description" content="主要用来记录dvwa靶场 跨站脚本攻击（反射型）破解方式">
-    <meta property="og:description" content="主要用来记录dvwa靶场 跨站脚本攻击（反射型）破解方式" />
-    <meta property="twitter:description" content="主要用来记录dvwa靶场 跨站脚本攻击（反射型）破解方式" />
+    <meta name="description" content="主要用来记录dvwa靶场 跨站脚本攻击（dom）破解方式">
+    <meta property="og:description" content="主要用来记录dvwa靶场 跨站脚本攻击（dom）破解方式" />
+    <meta property="twitter:description" content="主要用来记录dvwa靶场 跨站脚本攻击（dom）破解方式" />
     
 
     
@@ -34,9 +34,9 @@
     <meta name="keyword"  content="帆帆, fanfan&#39;s的博客,个人网站,编程,网络安全,杂谈,瞎琢磨">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>跨站脚本攻击（反射型）---dvwa | 帆帆的博客 | fanfan&#39;s Blog</title>
+    <title>跨站脚本攻击（dom）---dvwa | 帆帆的博客 | fanfan&#39;s Blog</title>
 
-    <link rel="canonical" href="/2022/6/xss%28reflected%29/">
+    <link rel="canonical" href="/2022/6/xss%28dom%29/">
 
     
     
@@ -175,7 +175,7 @@
                         </a>
                         
                     </div>
-                    <h1>跨站脚本攻击（反射型）---dvwa</h1>
+                    <h1>跨站脚本攻击（dom）---dvwa</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         
@@ -210,124 +210,135 @@
                 post-container">
 
                 
-                <h2 id="跨站脚本攻击xss简介">跨站脚本攻击XSS简介</h2>
-<blockquote>
-<p>跨站脚本攻击XSS，全称Cross Site Scripting，是指攻击者在有漏洞的Web页面中注入恶意的代码脚本，当受害者访问该页面时，恶意代码会在其浏览器上执行。XSS漏洞通常是通过php的输出函数将javascript代码输出到html页面中，通过用户本地浏览器执行的。</p>
+                <blockquote>
+<p>强烈建议先学习下</p>
+<p><a href="https://fan-bu-fan.github.io/2022/6/xss(reflected)/">反射型XSS</a></p>
+<p><a href="https://fan-bu-fan.github.io/2022/6/xss(stored)/">存储型XSS</a></p>
 </blockquote>
-<pre><code>用大白话来说，XSS的攻击方式就是想办法“教唆”用户的浏览器去执行一些这个网页中原本不存在的前端代码。
-</code></pre>
-<h2 id="利用xss漏洞的常见用途">利用XSS漏洞的常见用途</h2>
+<h2 id="dom型xss-简介">DOM型XSS 简介</h2>
 <blockquote>
-<p>①盗取用户cookies</p>
-<p>②会话劫持</p>
-<p>③流量劫持</p>
-<p>④网页挂马</p>
-<p>⑤DDOS攻击</p>
-<p>⑥提升权限</p>
+<p>DOM是一个与平台，编程语言无关的“端口”，它允许程序或者脚本动态的访问和更新文档内容、结果和样式，处理后的结果能够成为显示的一部分，不依赖于提交数据到服务器端，从而客户端获得DOM中的数据在本地执行，如果DOM中的数据没有经过严格的确定，就会产生DOM型XSS漏洞。
+但和反射型的区别是，构造的URL参数不用发送到服务器端，直接是在本地执行的，所以在有些情况下可以绕过WAF等防护。</p>
 </blockquote>
-<h2 id="反射型reflectedxss">反射型（Reflected）XSS</h2>
-<p>反射型XSS是一种<code>非持久性XSS</code>，也就是攻击相对于访问者而言是<code>一次性</code>的</p>
-<p>具体表现就是恶意脚本通过URL的方式传递给了服务器，而服务器则只是不加处理的脚本“反射”回访者的浏览器而使访问者的浏览器执行响应的脚本。</p>
 <h2 id="low-级别破解">Low 级别破解</h2>
 <blockquote>
 <p>查看源码</p>
 </blockquote>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff79c6">&lt;?</span>php
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>header (<span style="color:#f1fa8c">&#34;X-XSS-Protection: 0&#34;</span>);
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">// Is there any input?
-</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#ff79c6">if</span>( array_key_exists( <span style="color:#f1fa8c">&#34;name&#34;</span>, <span style="color:#8be9fd;font-style:italic">$_GET</span> ) <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#8be9fd;font-style:italic">$_GET</span>[ <span style="color:#f1fa8c">&#39;name&#39;</span> ] <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">NULL</span> ) {
-</span></span><span style="display:flex;"><span>   <span style="color:#6272a4">// Feedback for end user
-</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>   <span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#39;&lt;pre&gt;Hello &#39;</span> <span style="color:#ff79c6">.</span> <span style="color:#8be9fd;font-style:italic">$_GET</span>[ <span style="color:#f1fa8c">&#39;name&#39;</span> ] <span style="color:#ff79c6">.</span> <span style="color:#f1fa8c">&#39;&lt;/pre&gt;&#39;</span>;
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4"># No protections, anything goes
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>
 </span></span><span style="display:flex;"><span><span style="color:#ff79c6">?&gt;</span> 
 </span></span></code></pre></div><blockquote>
-<p>没有过滤机制，只是检查下是否为空,这样就存在很明显的XSS漏洞了</p>
+<p>服务器这端没有做任何过滤保护</p>
+<p>DVWA的DOM型XSS场景是一个选择下拉框
+
+  <img src="/img/xss%28dom%29/1-1.png" alt="直接输入">
+
+
+我们选择&quot;Spanish&quot;提交后，URL和下拉框的内容都发生了变化
+
+  <img src="/img/xss%28dom%29/1-2.png" alt="直接输入">
+
+
+DOM型XSS的脚本不会提交到服务器端，都是本地运行的，所以我们通过调试器看下源码
+
+  <img src="/img/xss%28dom%29/1-3.png" alt="直接输入">
+
+
+这里存在DOM型XSS的注入点，我们做个简单的测试，直接在URL的default后面输入test</p>
 </blockquote>
-<p>输入<code>&lt;script&gt;alert(1)&lt;/script&gt;</code> 可以看到会出来一个弹窗,这个就是反射型XSS的攻击，服务器并未执行这个脚本，只是因为服务器存在漏洞，使得脚本反射给了浏览器执行，通常会将恶意脚本放在URL中让用户进行执行。</p>
-<p>
-  <img src="/img/xss%28reflected%29/1-1.png" alt="直接输入">
+<p>直接在URL的default后面输入test 发现页面当中会有test字样
+
+  <img src="/img/xss%28dom%29/1-4.png" alt="直接输入">
 
 </p>
-<p><code>&lt;script&gt;alert(document.cookie)&lt;/script&gt;</code> 可以把浏览器的cookie给反射出来
-用于劫持流量,实现恶意跳转:<code>&lt;script&gt;document.location.href=&quot;http://www.baidu.com&quot;&lt;/script&gt;</code> 访问此链接,所访问的网站就会跳转到百度的首页</p>
+<p>我们可以构造Payload放到default后面:
+输入 <code>&lt;script&gt;alert(111)&lt;/script&gt;</code> 后发现弹出弹框
+
+  <img src="/img/xss%28dom%29/1-5.png" alt="直接输入">
+
+</p>
 <h2 id="medium-级别破解">Medium 级别破解</h2>
 <blockquote>
 <p>查看源码</p>
 </blockquote>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff79c6">&lt;?</span>php
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>header (<span style="color:#f1fa8c">&#34;X-XSS-Protection: 0&#34;</span>);
-</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#6272a4">// Is there any input?
-</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#ff79c6">if</span>( array_key_exists( <span style="color:#f1fa8c">&#34;name&#34;</span>, <span style="color:#8be9fd;font-style:italic">$_GET</span> ) <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#8be9fd;font-style:italic">$_GET</span>[ <span style="color:#f1fa8c">&#39;name&#39;</span> ] <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">NULL</span> ) {
-</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// Get input
-</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">$name</span> <span style="color:#ff79c6">=</span> str_replace( <span style="color:#f1fa8c">&#39;&lt;script&gt;&#39;</span>, <span style="color:#f1fa8c">&#39;&#39;</span>, <span style="color:#8be9fd;font-style:italic">$_GET</span>[ <span style="color:#f1fa8c">&#39;name&#39;</span> ] );
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// Feedback for end user
-</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;&lt;pre&gt;Hello </span><span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">name</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&lt;/pre&gt;&#34;</span>;
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#ff79c6">if</span> ( array_key_exists( <span style="color:#f1fa8c">&#34;default&#34;</span>, <span style="color:#8be9fd;font-style:italic">$_GET</span> ) <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#ff79c6">!</span>is_null (<span style="color:#8be9fd;font-style:italic">$_GET</span>[ <span style="color:#f1fa8c">&#39;default&#39;</span> ]) ) {
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">$default</span> <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">$_GET</span>[<span style="color:#f1fa8c">&#39;default&#39;</span>];
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4"># Do not allow script tags
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">if</span> (stripos (<span style="color:#8be9fd;font-style:italic">$default</span>, <span style="color:#f1fa8c">&#34;&lt;script&#34;</span>) <span style="color:#ff79c6">!==</span> <span style="color:#ff79c6">false</span>) {
+</span></span><span style="display:flex;"><span>        header (<span style="color:#f1fa8c">&#34;location: ?default=English&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">exit</span>;
+</span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#ff79c6">?&gt;</span> 
 </span></span></code></pre></div><blockquote>
-<p>只是对<code>&lt;script&gt;</code>进行了过滤</p>
+<p>在服务器代码侧对提交的default内容用stripos来匹配&lt;script，这个函数不区分大小写。这样<code>&lt;script&gt;</code>标签就被过滤了</p>
 </blockquote>
-<p>我们可以用<code>&lt;Script&gt;</code>大小写来绕过弹个窗:<code>&lt;Script&gt;alert(1)&lt;/Script&gt;</code>&rsquo;
+<h4 id="方法1可以采用img标签绕过">方法1:可以采用<code>&lt;img&gt;</code>标签绕过</h4>
+<p>在页面中的default中输入<code>&lt;img src=1 onerror=alert(111)&gt;</code>
 
-  <img src="/img/xss%28reflected%29/2-1.png" alt="直接输入">
+  <img src="/img/xss%28dom%29/1-6.png" alt="直接输入">
 
 
-也可以通过双写来绕过<code>&lt;scr&lt;script&gt;ipt&gt;alert(1)&lt;/script&gt;</code>
+尝试把<code>&lt;option&gt;</code>标签闭合掉 <code>&lt;/option&gt;&lt;img src=1onerror=alert(111)&gt;</code> 可还是没有弹框,说明还没有绕过
 
-  <img src="/img/xss%28reflected%29/2-2.png" alt="直接输入">
+  <img src="/img/xss%28dom%29/1-7.png" alt="直接输入">
 
 </p>
+<p>我们尝试下把<code>&lt;select&gt;</code>标签闭合<code>&lt;/select&gt;&lt;img src=1 onerror=alert(111)&gt;</code>
+
+  <img src="/img/xss%28dom%29/1-8.png" alt="直接输入">
+
+
+执行成功有弹框了</p>
+<h2 id="方法2-span-id-jump可以采用双参数来绕过span">方法2: <span id= "jump">可以采用双参数来绕过</span></h2>
+<pre><code>服务端只是检测default这个参数中是否有&lt;script&gt;标签，那我们就想办法再增加参数来绕过这个限制
+</code></pre>
+<p>在default后面添加<code>&amp;test=&lt;script&gt;alert(111)&lt;/script&gt;</code> 后为:</p>
+<pre><code>http://127.0.0.1/vulnerabilities/xss_d/?default=French&amp;test=&lt;script&gt;alert(111)&lt;/script&gt;
+</code></pre>
+<p>
+  <img src="/img/xss%28dom%29/1-9.png" alt="直接输入">
+
+
+成功弹出弹框</p>
 <h2 id="high-级别破解">High 级别破解</h2>
 <blockquote>
 <p>查看源码</p>
 </blockquote>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff79c6">&lt;?</span>php
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>header (<span style="color:#f1fa8c">&#34;X-XSS-Protection: 0&#34;</span>);
-</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#6272a4">// Is there any input?
-</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#ff79c6">if</span>( array_key_exists( <span style="color:#f1fa8c">&#34;name&#34;</span>, <span style="color:#8be9fd;font-style:italic">$_GET</span> ) <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#8be9fd;font-style:italic">$_GET</span>[ <span style="color:#f1fa8c">&#39;name&#39;</span> ] <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">NULL</span> ) {
-</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// Get input
-</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">$name</span> <span style="color:#ff79c6">=</span> preg_replace( <span style="color:#f1fa8c">&#39;/&lt;(.*)s(.*)c(.*)r(.*)i(.*)p(.*)t/i&#39;</span>, <span style="color:#f1fa8c">&#39;&#39;</span>, <span style="color:#8be9fd;font-style:italic">$_GET</span>[ <span style="color:#f1fa8c">&#39;name&#39;</span> ] );
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#ff79c6">if</span> ( array_key_exists( <span style="color:#f1fa8c">&#34;default&#34;</span>, <span style="color:#8be9fd;font-style:italic">$_GET</span> ) <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#ff79c6">!</span>is_null (<span style="color:#8be9fd;font-style:italic">$_GET</span>[ <span style="color:#f1fa8c">&#39;default&#39;</span> ]) ) {
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// Feedback for end user
-</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;&lt;pre&gt;Hello </span><span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">name</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&lt;/pre&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4"># White list the allowable languages
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">switch</span> (<span style="color:#8be9fd;font-style:italic">$_GET</span>[<span style="color:#f1fa8c">&#39;default&#39;</span>]) {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">case</span> <span style="color:#f1fa8c">&#34;French&#34;</span><span style="color:#ff79c6">:</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">case</span> <span style="color:#f1fa8c">&#34;English&#34;</span><span style="color:#ff79c6">:</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">case</span> <span style="color:#f1fa8c">&#34;German&#34;</span><span style="color:#ff79c6">:</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">case</span> <span style="color:#f1fa8c">&#34;Spanish&#34;</span><span style="color:#ff79c6">:</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#6272a4"># ok
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>            <span style="color:#ff79c6">break</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">default</span><span style="color:#ff79c6">:</span>
+</span></span><span style="display:flex;"><span>            header (<span style="color:#f1fa8c">&#34;location: ?default=English&#34;</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">exit</span>;
+</span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#ff79c6">?&gt;</span> 
 </span></span></code></pre></div><blockquote>
-<p>代码上的变化，利用正则表达式把<code>&lt;script&gt;</code>彻底堵死了
-但并不是只有script标签才可以插入代码，还可以通过其他方式来绕过。</p>
+<p>服务器端对default参数进行了严格的匹配，只能是这四种字符串，因此<code>&lt;image&gt;</code>标签就无法绕过了。
+但是**“双参数绕过”**的方式依然有效。</p>
 </blockquote>
-<h4 id="利用img标签绕过">利用<code>&lt;img&gt;</code>标签绕过</h4>
-<pre><code>&lt;img&gt;标签有个功能特性，当指定图片不存在时，执行onerror后面的代码
-</code></pre>
-<p>输入<code>&lt;img src='1' onerror='alert(1)'&gt;</code></p>
-<p>
-  <img src="/img/xss%28reflected%29/3-1.png" alt="直接输入">
+<p>可以参考<a href="#jump">medium中双参数验证</a>的方式
 
-</p>
-<h4 id="利用onmousemove标签绕过">利用<code>&lt;onmousemove&gt;</code>标签绕过</h4>
-<pre><code>&lt;onmousemove&gt;标签可以监控鼠标的移动，移动时执行代码
-</code></pre>
-<p>输入<code>&lt;a onmousemove='alert(1)'&gt;</code>
-
-  <img src="/img/xss%28reflected%29/3-2.png" alt="直接输入">
-
-</p>
-<p>上面两种方式，都可以绕过<sctrip>标签被正则控制的情况，如果服务器对代码中的关键字（比如alert）进行过滤的话，我们可以尝试将关键字进行编码后再插入。
-不过直接显示编码是不能被浏览器执行的，我们可以用另一个语句eval()来实现，eval()会将编码过的语句解码后再执行。</p>
-<p>例如alert经过Unicode编码后就是<code>\u0061\u006c\u0065\u0072\u0074</code></p>
-<p>我们结合上面<code>&lt;image&gt;</code>标签运行下<code>&lt;img src='1' onerror='eval(\u0061\u006c\u0065\u0072\u0074(1))'&gt;</code>，弹窗成功
-
-  <img src="/img/xss%28reflected%29/3-3.png" alt="直接输入">
+  <img src="/img/xss%28dom%29/3-1.png" alt="直接输入">
 
 </p>
 
@@ -338,13 +349,13 @@
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2022/6/xss%28stored%29/" data-toggle="tooltip" data-placement="top" title="跨站脚本攻击（存储型）---dvwa">&larr;
+                        <a href="/2022/6/xss%28reflected%29/" data-toggle="tooltip" data-placement="top" title="跨站脚本攻击（反射型）---dvwa">&larr;
                             Previous Post</a>
                     </li>
                     
                     
                     <li class="next">
-                        <a href="/2022/6/xss%28dom%29/" data-toggle="tooltip" data-placement="top" title="跨站脚本攻击（dom）---dvwa">Next
+                        <a href="/2022/6/weekSession/" data-toggle="tooltip" data-placement="top" title="Weak Session IDs---dvwa">Next
                             Post &rarr;</a>
                     </li>
                     

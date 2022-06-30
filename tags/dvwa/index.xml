@@ -106,6 +106,15 @@
     </item>
     
     <item>
+      <title>跨站脚本攻击（dom）---dvwa</title>
+      <link>https://fan-bu-fan.github.io/2022/6/xss(dom)/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fan-bu-fan.github.io/2022/6/xss(dom)/</guid>
+      <description>强烈建议先学习下 反射型XSS 存储型XSS DOM型XSS 简介 DOM是一个与平台，编程语言无关的“端口”，它允许程序或者脚本动态的访问和更新文档</description>
+    </item>
+    
+    <item>
       <title>跨站脚本攻击（反射型）---dvwa</title>
       <link>https://fan-bu-fan.github.io/2022/6/xss(reflected)/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -116,10 +125,10 @@
     
     <item>
       <title>跨站脚本攻击（存储型）---dvwa</title>
-      <link>https://fan-bu-fan.github.io/2022/6/xss(reflected)/</link>
+      <link>https://fan-bu-fan.github.io/2022/6/xss(stored)/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://fan-bu-fan.github.io/2022/6/xss(reflected)/</guid>
+      <guid>https://fan-bu-fan.github.io/2022/6/xss(stored)/</guid>
       <description>强烈建议先学习下反射型XSS 存储型xss简介 存储型XSS是一种持久化的XSS，它与反射型XSS最大的不同就是服务器在接收到我们的恶意脚本时会</description>
     </item>
     
