@@ -5,7 +5,170 @@
     <link>https://fan-bu-fan.github.io/</link>
     <description>Recent content on FELL &amp; ENJOY</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="https://fan-bu-fan.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language>
+    <lastBuildDate>Thu, 30 Jun 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://fan-bu-fan.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>跨站脚本攻击（dom）---dvwa</title>
+      <link>https://fan-bu-fan.github.io/2022/6/xss(dom)/</link>
+      <pubDate>Thu, 30 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://fan-bu-fan.github.io/2022/6/xss(dom)/</guid>
+      <description>强烈建议先学习下 反射型XSS 存储型XSS DOM型XSS 简介 DOM是一个与平台，编程语言无关的“端口”，它允许程序或者脚本动态的访问和更新文档</description>
+    </item>
+    
+    <item>
+      <title>跨站脚本攻击（反射型）---dvwa</title>
+      <link>https://fan-bu-fan.github.io/2022/6/xss(reflected)/</link>
+      <pubDate>Thu, 30 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://fan-bu-fan.github.io/2022/6/xss(reflected)/</guid>
+      <description>跨站脚本攻击XSS简介 跨站脚本攻击XSS，全称Cross Site Scripting，是指攻击者在有漏洞的Web页面中注入恶意的代码脚本，当受害者访</description>
+    </item>
+    
+    <item>
+      <title>跨站脚本攻击（存储型）---dvwa</title>
+      <link>https://fan-bu-fan.github.io/2022/6/xss(stored)/</link>
+      <pubDate>Thu, 30 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://fan-bu-fan.github.io/2022/6/xss(stored)/</guid>
+      <description>强烈建议先学习下反射型XSS 存储型xss简介 存储型XSS是一种持久化的XSS，它与反射型XSS最大的不同就是服务器在接收到我们的恶意脚本时会</description>
+    </item>
+    
+    <item>
+      <title>Brute Force ---dvwa</title>
+      <link>https://fan-bu-fan.github.io/2022/6/brute%20force/</link>
+      <pubDate>Wed, 29 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://fan-bu-fan.github.io/2022/6/brute%20force/</guid>
+      <description>Brute Force简介 Brute Force，即暴力（破解），是指黑客利用密码字典，使用穷举法猜解出用户口令，是现在最为广泛使用的攻击手法之一 LOW 级别破解 查看</description>
+    </item>
+    
+    <item>
+      <title>csp 绕过 以及js 绕过---dvwa</title>
+      <link>https://fan-bu-fan.github.io/2022/6/csp&amp;JavaScript/</link>
+      <pubDate>Wed, 29 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://fan-bu-fan.github.io/2022/6/csp&amp;JavaScript/</guid>
+      <description>csp 参考资料 JavaScript 参考资料 视频资料</description>
+    </item>
+    
+    <item>
+      <title>Insecure CAPTCHA ---dvwa</title>
+      <link>https://fan-bu-fan.github.io/2022/6/Insecure%20CAPTCHA/</link>
+      <pubDate>Wed, 29 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://fan-bu-fan.github.io/2022/6/Insecure%20CAPTCHA/</guid>
+      <description>Insecure CAPTCHA 简介 Insecure CAPTCHA，意思是不安全的验证码，CAPTCHA是Completely Automated Public Turing Test to Tell Computers and Humans Apart (全自动区分计算机和人类的图灵测试)</description>
+    </item>
+    
+    <item>
+      <title>Weak Session IDs---dvwa</title>
+      <link>https://fan-bu-fan.github.io/2022/6/weekSession/</link>
+      <pubDate>Wed, 29 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://fan-bu-fan.github.io/2022/6/weekSession/</guid>
+      <description>前置条件 浏览器安装hackbar插件 Weak Session IDs 简介 当用户登录后，在服务器就会创建一个会话(session)，叫做会话控制，接着访问页面的时候就不</description>
+    </item>
+    
+    <item>
+      <title>Command Injection ---dvwa</title>
+      <link>https://fan-bu-fan.github.io/2022/6/Command%20Injection/</link>
+      <pubDate>Tue, 28 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://fan-bu-fan.github.io/2022/6/Command%20Injection/</guid>
+      <description>Command Injection 简介 Command Injection，即命令注入，是指通过提交恶意构造的参数破坏命令语句结构，从而达到执行恶意命令的目的。PHP命令注入攻击漏洞是P</description>
+    </item>
+    
+    <item>
+      <title>CSRF ---dvwa</title>
+      <link>https://fan-bu-fan.github.io/2022/6/CSRF/</link>
+      <pubDate>Tue, 28 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://fan-bu-fan.github.io/2022/6/CSRF/</guid>
+      <description>CSRF 简介 CSRF，全称Cross-site request forgery，翻译过来就是跨站请求伪造，是指利用受害者尚未失效的身份认证信息（cookie、会话</description>
+    </item>
+    
+    <item>
+      <title>SQL Injection ---dvwa</title>
+      <link>https://fan-bu-fan.github.io/2022/6/sql%20injection/</link>
+      <pubDate>Tue, 28 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://fan-bu-fan.github.io/2022/6/sql%20injection/</guid>
+      <description>SQL Injection 简介 SQL Injection，即SQL注入，是指攻击者通过注入恶意的SQL命令，破坏SQL查询语句的结构，从而达到执行恶意SQL语句的目的。</description>
+    </item>
+    
+    <item>
+      <title>SQL Injection(Blind) ---dvwa</title>
+      <link>https://fan-bu-fan.github.io/2022/6/blind%20sql%20injection/</link>
+      <pubDate>Tue, 28 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://fan-bu-fan.github.io/2022/6/blind%20sql%20injection/</guid>
+      <description>SQL Injection 盲注简介 SQL Injection（Blind），即SQL盲注，与一般注入的区别在于，一般的注入攻击者可以直接从页面上看到注入语句的执行结果，</description>
+    </item>
+    
+    <item>
+      <title>SQL Injection(工具篇) ---dvwa</title>
+      <link>https://fan-bu-fan.github.io/2022/6/tool%20sql%20injection/</link>
+      <pubDate>Tue, 28 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://fan-bu-fan.github.io/2022/6/tool%20sql%20injection/</guid>
+      <description>前置准备 sqlmap的安装 BurpSuite的安装 BuprSuite中配置sqlmap low级别破解 1.抓包查看数据包的情况 2.尝试使用sq</description>
+    </item>
+    
+    <item>
+      <title> File Inclusion --dvwa</title>
+      <link>https://fan-bu-fan.github.io/2022/6/File%20Inclusion/</link>
+      <pubDate>Mon, 27 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://fan-bu-fan.github.io/2022/6/File%20Inclusion/</guid>
+      <description>文件包含简介 File Inclusion，意思是文件包含（漏洞），是指当服务器开启allow_url_include选项时，就可以通过php的某些特</description>
+    </item>
+    
+    <item>
+      <title>Burp Suite的安装与使用</title>
+      <link>https://fan-bu-fan.github.io/2022/6/Burp%20Suite%20%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/</link>
+      <pubDate>Mon, 27 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://fan-bu-fan.github.io/2022/6/Burp%20Suite%20%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/</guid>
+      <description>前置条件 java 环境已经配置好 Burp Suite的下载安装及破解教程 下载地址 点击进入官网进行下载 !!!这里我们选择专业版，并且建议选择JAR。方便我们后</description>
+    </item>
+    
+    <item>
+      <title>File Upload ---dvwa</title>
+      <link>https://fan-bu-fan.github.io/2022/6/File%20Upload/</link>
+      <pubDate>Mon, 27 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://fan-bu-fan.github.io/2022/6/File%20Upload/</guid>
+      <description>文件上传漏洞简介 File Upload，即文件上传漏洞，通常是由于对上传文件的类型、内容没有进行严格的过滤、检查，使得攻击者可以通过上传木马获取服务</description>
+    </item>
+    
+    <item>
+      <title>dvwa靶机的安装与通关</title>
+      <link>https://fan-bu-fan.github.io/2022/6/dvwa/</link>
+      <pubDate>Sun, 26 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://fan-bu-fan.github.io/2022/6/dvwa/</guid>
+      <description>dvwa简介 DVWA（Damn Vulnerable Web Application）是一个用来进行安全脆弱性鉴定的PHP/MySQL Web应用，旨在为安全专业人员测试</description>
+    </item>
+    
+    <item>
+      <title>java环境配置</title>
+      <link>https://fan-bu-fan.github.io/2022/6/java%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</link>
+      <pubDate>Sun, 26 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://fan-bu-fan.github.io/2022/6/java%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</guid>
+      <description>java jdk下载 jdk版本不要过高，否则可能会出现问题 以下以java11的安装为例进行说明 我们可以通过java官网去进行下载： 进入官网后，下载6</description>
+    </item>
+    
+    <item>
+      <title>sqlMap的安装与使用</title>
+      <link>https://fan-bu-fan.github.io/2022/6/sqlMap%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/</link>
+      <pubDate>Sun, 26 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://fan-bu-fan.github.io/2022/6/sqlMap%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/</guid>
+      <description>sqlmap是一个自动化的sql注入工具，其主要功能是扫描，发现并利用给定的URL进行sql注入，目前支持数据库有mysql、oracle、</description>
+    </item>
+    
     <item>
       <title></title>
       <link>https://fan-bu-fan.github.io/search/placeholder/</link>
@@ -34,174 +197,12 @@
     </item>
     
     <item>
-      <title> File Inclusion --dvwa</title>
-      <link>https://fan-bu-fan.github.io/2022/6/File%20Inclusion/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://fan-bu-fan.github.io/2022/6/File%20Inclusion/</guid>
-      <description>文件包含简介 File Inclusion，意思是文件包含（漏洞），是指当服务器开启allow_url_include选项时，就可以通过php的某些特</description>
-    </item>
-    
-    <item>
-      <title>Brute Force ---dvwa</title>
-      <link>https://fan-bu-fan.github.io/2022/6/brute%20force/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://fan-bu-fan.github.io/2022/6/brute%20force/</guid>
-      <description>Brute Force简介 Brute Force，即暴力（破解），是指黑客利用密码字典，使用穷举法猜解出用户口令，是现在最为广泛使用的攻击手法之一 LOW 级别破解 查看</description>
-    </item>
-    
-    <item>
-      <title>Burp Suite的安装与使用</title>
-      <link>https://fan-bu-fan.github.io/2022/6/Burp%20Suite%20%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://fan-bu-fan.github.io/2022/6/Burp%20Suite%20%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/</guid>
-      <description>前置条件 java 环境已经配置好 Burp Suite的下载安装及破解教程 下载地址 点击进入官网进行下载 !!!这里我们选择专业版，并且建议选择JAR。方便我们后</description>
-    </item>
-    
-    <item>
-      <title>Command Injection ---dvwa</title>
-      <link>https://fan-bu-fan.github.io/2022/6/Command%20Injection/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://fan-bu-fan.github.io/2022/6/Command%20Injection/</guid>
-      <description>Command Injection 简介 Command Injection，即命令注入，是指通过提交恶意构造的参数破坏命令语句结构，从而达到执行恶意命令的目的。PHP命令注入攻击漏洞是P</description>
-    </item>
-    
-    <item>
-      <title>csp 绕过 以及js 绕过---dvwa</title>
-      <link>https://fan-bu-fan.github.io/2022/6/csp&amp;JavaScript/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://fan-bu-fan.github.io/2022/6/csp&amp;JavaScript/</guid>
-      <description>csp 参考资料 JavaScript 参考资料 视频资料</description>
-    </item>
-    
-    <item>
-      <title>CSRF ---dvwa</title>
-      <link>https://fan-bu-fan.github.io/2022/6/CSRF/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://fan-bu-fan.github.io/2022/6/CSRF/</guid>
-      <description>CSRF 简介 CSRF，全称Cross-site request forgery，翻译过来就是跨站请求伪造，是指利用受害者尚未失效的身份认证信息（cookie、会话</description>
-    </item>
-    
-    <item>
-      <title>dvwa靶机的安装与通关</title>
-      <link>https://fan-bu-fan.github.io/2022/6/dvwa/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://fan-bu-fan.github.io/2022/6/dvwa/</guid>
-      <description>dvwa简介 DVWA（Damn Vulnerable Web Application）是一个用来进行安全脆弱性鉴定的PHP/MySQL Web应用，旨在为安全专业人员测试</description>
-    </item>
-    
-    <item>
-      <title>File Upload ---dvwa</title>
-      <link>https://fan-bu-fan.github.io/2022/6/File%20Upload/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://fan-bu-fan.github.io/2022/6/File%20Upload/</guid>
-      <description>文件上传漏洞简介 File Upload，即文件上传漏洞，通常是由于对上传文件的类型、内容没有进行严格的过滤、检查，使得攻击者可以通过上传木马获取服务</description>
-    </item>
-    
-    <item>
-      <title>Insecure CAPTCHA ---dvwa</title>
-      <link>https://fan-bu-fan.github.io/2022/6/Insecure%20CAPTCHA/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://fan-bu-fan.github.io/2022/6/Insecure%20CAPTCHA/</guid>
-      <description>Insecure CAPTCHA 简介 Insecure CAPTCHA，意思是不安全的验证码，CAPTCHA是Completely Automated Public Turing Test to Tell Computers and Humans Apart (全自动区分计算机和人类的图灵测试)</description>
-    </item>
-    
-    <item>
-      <title>java环境配置</title>
-      <link>https://fan-bu-fan.github.io/2022/6/java%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://fan-bu-fan.github.io/2022/6/java%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</guid>
-      <description>java jdk下载 jdk版本不要过高，否则可能会出现问题 以下以java11的安装为例进行说明 我们可以通过java官网去进行下载： 进入官网后，下载6</description>
-    </item>
-    
-    <item>
       <title>Posts Archive</title>
       <link>https://fan-bu-fan.github.io/top/archive/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://fan-bu-fan.github.io/top/archive/</guid>
       <description></description>
-    </item>
-    
-    <item>
-      <title>SQL Injection ---dvwa</title>
-      <link>https://fan-bu-fan.github.io/2022/6/sql%20injection/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://fan-bu-fan.github.io/2022/6/sql%20injection/</guid>
-      <description>SQL Injection 简介 SQL Injection，即SQL注入，是指攻击者通过注入恶意的SQL命令，破坏SQL查询语句的结构，从而达到执行恶意SQL语句的目的。</description>
-    </item>
-    
-    <item>
-      <title>SQL Injection(Blind) ---dvwa</title>
-      <link>https://fan-bu-fan.github.io/2022/6/blind%20sql%20injection/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://fan-bu-fan.github.io/2022/6/blind%20sql%20injection/</guid>
-      <description>SQL Injection 盲注简介 SQL Injection（Blind），即SQL盲注，与一般注入的区别在于，一般的注入攻击者可以直接从页面上看到注入语句的执行结果，</description>
-    </item>
-    
-    <item>
-      <title>SQL Injection(工具篇) ---dvwa</title>
-      <link>https://fan-bu-fan.github.io/2022/6/tool%20sql%20injection/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://fan-bu-fan.github.io/2022/6/tool%20sql%20injection/</guid>
-      <description>前置准备 sqlmap的安装 BurpSuite的安装 BuprSuite中配置sqlmap low级别破解 1.抓包查看数据包的情况 2.尝试使用sq</description>
-    </item>
-    
-    <item>
-      <title>sqlMap的安装与使用</title>
-      <link>https://fan-bu-fan.github.io/2022/6/sqlMap%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://fan-bu-fan.github.io/2022/6/sqlMap%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/</guid>
-      <description>sqlmap是一个自动化的sql注入工具，其主要功能是扫描，发现并利用给定的URL进行sql注入，目前支持数据库有mysql、oracle、</description>
-    </item>
-    
-    <item>
-      <title>Weak Session IDs---dvwa</title>
-      <link>https://fan-bu-fan.github.io/2022/6/weekSession/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://fan-bu-fan.github.io/2022/6/weekSession/</guid>
-      <description>前置条件 浏览器安装hackbar插件 Weak Session IDs 简介 当用户登录后，在服务器就会创建一个会话(session)，叫做会话控制，接着访问页面的时候就不</description>
-    </item>
-    
-    <item>
-      <title>跨站脚本攻击（dom）---dvwa</title>
-      <link>https://fan-bu-fan.github.io/2022/6/xss(dom)/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://fan-bu-fan.github.io/2022/6/xss(dom)/</guid>
-      <description>强烈建议先学习下 反射型XSS 存储型XSS DOM型XSS 简介 DOM是一个与平台，编程语言无关的“端口”，它允许程序或者脚本动态的访问和更新文档</description>
-    </item>
-    
-    <item>
-      <title>跨站脚本攻击（反射型）---dvwa</title>
-      <link>https://fan-bu-fan.github.io/2022/6/xss(reflected)/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://fan-bu-fan.github.io/2022/6/xss(reflected)/</guid>
-      <description>跨站脚本攻击XSS简介 跨站脚本攻击XSS，全称Cross Site Scripting，是指攻击者在有漏洞的Web页面中注入恶意的代码脚本，当受害者访</description>
-    </item>
-    
-    <item>
-      <title>跨站脚本攻击（存储型）---dvwa</title>
-      <link>https://fan-bu-fan.github.io/2022/6/xss(stored)/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://fan-bu-fan.github.io/2022/6/xss(stored)/</guid>
-      <description>强烈建议先学习下反射型XSS 存储型xss简介 存储型XSS是一种持久化的XSS，它与反射型XSS最大的不同就是服务器在接收到我们的恶意脚本时会</description>
     </item>
     
   </channel>
