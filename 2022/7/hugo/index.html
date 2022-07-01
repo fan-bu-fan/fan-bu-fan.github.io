@@ -341,7 +341,14 @@
 
 然后看到<code> Your site is published at https://fan-bu-fan.github.io/</code> 提示
 这样我们就可以通过访问此链接去访问我们的博客了</p>
-
+<h2 id="可能遇到的问题">可能遇到的问题</h2>
+<h4 id="1hugo无法解析markdown中的html标签">1.Hugo无法解析markdown中的html标签</h4>
+<blockquote>
+<p>在config.toml文件中加入下面内容</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[markup.goldmark.renderer]
+</span></span><span style="display:flex;"><span>unsafe = <span style="color:#ff79c6">true</span>
+</span></span></code></pre></div>
 
                 
 
