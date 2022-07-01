@@ -6,7 +6,16 @@
     <description>Recent content in 工具集 on FELL &amp; ENJOY</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 27 Jun 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://fan-bu-fan.github.io/categories/%E5%B7%A5%E5%85%B7%E9%9B%86/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 01 Jul 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://fan-bu-fan.github.io/categories/%E5%B7%A5%E5%85%B7%E9%9B%86/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>git配置</title>
+      <link>https://fan-bu-fan.github.io/2022/6/git%E9%85%8D%E7%BD%AE/</link>
+      <pubDate>Fri, 01 Jul 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://fan-bu-fan.github.io/2022/6/git%E9%85%8D%E7%BD%AE/</guid>
+      <description>windows下git的安装 安装教程 windows下 git 和github 联动 1.打开git bash页面 找到git安装的目录，并点击git-bas</description>
+    </item>
+    
     <item>
       <title>Burp Suite的安装与使用</title>
       <link>https://fan-bu-fan.github.io/2022/6/Burp%20Suite%20%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/</link>
