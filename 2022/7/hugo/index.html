@@ -15,15 +15,15 @@
     
 
     
-    <meta name="title" content="跨站脚本攻击（dom）---dvwa" />
-    <meta property="og:title" content="跨站脚本攻击（dom）---dvwa" />
-    <meta property="twitter:title" content="跨站脚本攻击（dom）---dvwa" />
+    <meta name="title" content="hugo博客搭建流程" />
+    <meta property="og:title" content="hugo博客搭建流程" />
+    <meta property="twitter:title" content="hugo博客搭建流程" />
     
 
     
-    <meta name="description" content="主要用来记录dvwa靶场 跨站脚本攻击（dom）破解方式">
-    <meta property="og:description" content="主要用来记录dvwa靶场 跨站脚本攻击（dom）破解方式" />
-    <meta property="twitter:description" content="主要用来记录dvwa靶场 跨站脚本攻击（dom）破解方式" />
+    <meta name="description" content="如果你想要尝试搭建自己的博客,不如参考以下步骤进行搭建">
+    <meta property="og:description" content="如果你想要尝试搭建自己的博客,不如参考以下步骤进行搭建" />
+    <meta property="twitter:description" content="如果你想要尝试搭建自己的博客,不如参考以下步骤进行搭建" />
     
 
     
@@ -34,9 +34,9 @@
     <meta name="keyword"  content="帆帆, fanfan&#39;s的博客,个人网站,编程,网络安全,杂谈,瞎琢磨">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>跨站脚本攻击（dom）---dvwa | 帆帆的博客 | fanfan&#39;s Blog</title>
+    <title>hugo博客搭建流程 | 帆帆的博客 | fanfan&#39;s Blog</title>
 
-    <link rel="canonical" href="/2022/6/xss%28dom%29/">
+    <link rel="canonical" href="/2022/7/hugo/">
 
     
     
@@ -170,16 +170,12 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/%E9%9D%B6%E5%9C%BA" title="靶场">
-                            靶场
-                        </a>
-                        
-                        <a class="tag" href="/tags/dvwa" title="dvwa">
-                            dvwa
+                        <a class="tag" href="/tags/%E5%B7%A5%E5%85%B7" title="工具">
+                            工具
                         </a>
                         
                     </div>
-                    <h1>跨站脚本攻击（dom）---dvwa</h1>
+                    <h1>hugo博客搭建流程</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         
@@ -188,7 +184,7 @@
                                 伍帆
                              
                             on 
-                            Thursday, June 30, 2022
+                            Friday, July 1, 2022
                             
                             
                             
@@ -215,136 +211,136 @@
 
                 
                 <blockquote>
-<p>强烈建议先学习下</p>
-<p><a href="https://fan-bu-fan.github.io/2022/6/xss(reflected)/">反射型XSS</a></p>
-<p><a href="https://fan-bu-fan.github.io/2022/6/xss(stored)/">存储型XSS</a></p>
+<p><a href="https://gohugo.io/">hugo 官网</a></p>
 </blockquote>
-<h2 id="dom型xss-简介">DOM型XSS 简介</h2>
-<blockquote>
-<p>DOM是一个与平台，编程语言无关的“端口”，它允许程序或者脚本动态的访问和更新文档内容、结果和样式，处理后的结果能够成为显示的一部分，不依赖于提交数据到服务器端，从而客户端获得DOM中的数据在本地执行，如果DOM中的数据没有经过严格的确定，就会产生DOM型XSS漏洞。
-但和反射型的区别是，构造的URL参数不用发送到服务器端，直接是在本地执行的，所以在有些情况下可以绕过WAF等防护。</p>
-</blockquote>
-<h2 id="low-级别破解">Low 级别破解</h2>
-<blockquote>
-<p>查看源码</p>
-</blockquote>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff79c6">&lt;?</span>php
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4"># No protections, anything goes
-</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>
-</span></span><span style="display:flex;"><span><span style="color:#ff79c6">?&gt;</span> 
-</span></span></code></pre></div><blockquote>
-<p>服务器这端没有做任何过滤保护</p>
-<p>DVWA的DOM型XSS场景是一个选择下拉框
-
-  <img src="/img/xss%28dom%29/1-1.png" alt="直接输入">
-
-
-我们选择&quot;Spanish&quot;提交后，URL和下拉框的内容都发生了变化
-
-  <img src="/img/xss%28dom%29/1-2.png" alt="直接输入">
-
-
-DOM型XSS的脚本不会提交到服务器端，都是本地运行的，所以我们通过调试器看下源码
-
-  <img src="/img/xss%28dom%29/1-3.png" alt="直接输入">
-
-
-这里存在DOM型XSS的注入点，我们做个简单的测试，直接在URL的default后面输入test</p>
-</blockquote>
-<p>直接在URL的default后面输入test 发现页面当中会有test字样
-
-  <img src="/img/xss%28dom%29/1-4.png" alt="直接输入">
-
-</p>
-<p>我们可以构造Payload放到default后面:
-输入 <code>&lt;script&gt;alert(111)&lt;/script&gt;</code> 后发现弹出弹框
-
-  <img src="/img/xss%28dom%29/1-5.png" alt="直接输入">
-
-</p>
-<h2 id="medium-级别破解">Medium 级别破解</h2>
-<blockquote>
-<p>查看源码</p>
-</blockquote>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff79c6">&lt;?</span>php
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">// Is there any input?
-</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#ff79c6">if</span> ( array_key_exists( <span style="color:#f1fa8c">&#34;default&#34;</span>, <span style="color:#8be9fd;font-style:italic">$_GET</span> ) <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#ff79c6">!</span>is_null (<span style="color:#8be9fd;font-style:italic">$_GET</span>[ <span style="color:#f1fa8c">&#39;default&#39;</span> ]) ) {
-</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">$default</span> <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">$_GET</span>[<span style="color:#f1fa8c">&#39;default&#39;</span>];
-</span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    <span style="color:#6272a4"># Do not allow script tags
-</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">if</span> (stripos (<span style="color:#8be9fd;font-style:italic">$default</span>, <span style="color:#f1fa8c">&#34;&lt;script&#34;</span>) <span style="color:#ff79c6">!==</span> <span style="color:#ff79c6">false</span>) {
-</span></span><span style="display:flex;"><span>        header (<span style="color:#f1fa8c">&#34;location: ?default=English&#34;</span>);
-</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">exit</span>;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#ff79c6">?&gt;</span> 
-</span></span></code></pre></div><blockquote>
-<p>在服务器代码侧对提交的default内容用stripos来匹配&lt;script，这个函数不区分大小写。这样<code>&lt;script&gt;</code>标签就被过滤了</p>
-</blockquote>
-<h4 id="方法1可以采用img标签绕过">方法1:可以采用<code>&lt;img&gt;</code>标签绕过</h4>
-<p>在页面中的default中输入<code>&lt;img src=1 onerror=alert(111)&gt;</code>
-
-  <img src="/img/xss%28dom%29/1-6.png" alt="直接输入">
-
-
-尝试把<code>&lt;option&gt;</code>标签闭合掉 <code>&lt;/option&gt;&lt;img src=1onerror=alert(111)&gt;</code> 可还是没有弹框,说明还没有绕过
-
-  <img src="/img/xss%28dom%29/1-7.png" alt="直接输入">
-
-</p>
-<p>我们尝试下把<code>&lt;select&gt;</code>标签闭合<code>&lt;/select&gt;&lt;img src=1 onerror=alert(111)&gt;</code>
-
-  <img src="/img/xss%28dom%29/1-8.png" alt="直接输入">
-
-
-执行成功有弹框了</p>
-<h2 id="方法2-span-id-jump可以采用双参数来绕过span">方法2: <span id= "jump">可以采用双参数来绕过</span></h2>
-<pre><code>服务端只是检测default这个参数中是否有&lt;script&gt;标签，那我们就想办法再增加参数来绕过这个限制
-</code></pre>
-<p>在default后面添加<code>&amp;test=&lt;script&gt;alert(111)&lt;/script&gt;</code> 后为:</p>
-<pre><code>http://127.0.0.1/vulnerabilities/xss_d/?default=French&amp;test=&lt;script&gt;alert(111)&lt;/script&gt;
-</code></pre>
+<h2 id="前置条件">前置条件</h2>
+<p><a href="https://fan-bu-fan.github.io/2022/6/git%E9%85%8D%E7%BD%AE/">git以及github的配置</a></p>
+<h2 id="hugo下载与安装">hugo下载与安装</h2>
+<h4 id="1hugo安装包github下载httpsgithubcomgohugoiohugoreleases">1.<a href="https://github.com/gohugoio/hugo/releases">Hugo安装包github下载</a></h4>
 <p>
-  <img src="/img/xss%28dom%29/1-9.png" alt="直接输入">
+  <img src="/img/hugo/1-1.png" alt="hugo">
 
 
-成功弹出弹框</p>
-<h2 id="high-级别破解">High 级别破解</h2>
-<blockquote>
-<p>查看源码</p>
-</blockquote>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff79c6">&lt;?</span>php
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4">// Is there any input?
-</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#ff79c6">if</span> ( array_key_exists( <span style="color:#f1fa8c">&#34;default&#34;</span>, <span style="color:#8be9fd;font-style:italic">$_GET</span> ) <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#ff79c6">!</span>is_null (<span style="color:#8be9fd;font-style:italic">$_GET</span>[ <span style="color:#f1fa8c">&#39;default&#39;</span> ]) ) {
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#6272a4"># White list the allowable languages
-</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">switch</span> (<span style="color:#8be9fd;font-style:italic">$_GET</span>[<span style="color:#f1fa8c">&#39;default&#39;</span>]) {
-</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">case</span> <span style="color:#f1fa8c">&#34;French&#34;</span><span style="color:#ff79c6">:</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">case</span> <span style="color:#f1fa8c">&#34;English&#34;</span><span style="color:#ff79c6">:</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">case</span> <span style="color:#f1fa8c">&#34;German&#34;</span><span style="color:#ff79c6">:</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">case</span> <span style="color:#f1fa8c">&#34;Spanish&#34;</span><span style="color:#ff79c6">:</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#6272a4"># ok
-</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>            <span style="color:#ff79c6">break</span>;
-</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">default</span><span style="color:#ff79c6">:</span>
-</span></span><span style="display:flex;"><span>            header (<span style="color:#f1fa8c">&#34;location: ?default=English&#34;</span>);
-</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">exit</span>;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#ff79c6">?&gt;</span> 
-</span></span></code></pre></div><blockquote>
-<p>服务器端对default参数进行了严格的匹配，只能是这四种字符串，因此<code>&lt;image&gt;</code>标签就无法绕过了。
-但是**“双参数绕过”**的方式依然有效。</p>
-</blockquote>
-<p>可以参考<a href="#jump">medium中双参数验证</a>的方式
+就只有一个exe执行程序,我们可以解压存放到你想放的文件夹下 我把它放到了<code>D:\extendSoft\hugo\bin</code>文件夹下
 
-  <img src="/img/xss%28dom%29/3-1.png" alt="直接输入">
+  <img src="/img/hugo/1-2.png" alt="hugo">
 
 </p>
+<h4 id="2环境变量的配置">2.环境变量的配置</h4>
+<p>找到hugo.exe存放的位置，给其配置环境变量
+
+  <img src="/img/hugo/1-3.png" alt="hugo">
+
+
+可以在终端输入<code>hugo version</code>验证是否安装配置hugo成功
+
+  <img src="/img/hugo/1-4.png" alt="hugo">
+
+</p>
+<h2 id="创建站点项目">创建站点项目</h2>
+<h4 id="1确定hugo站点要安装的目录">1.确定hugo站点要安装的目录</h4>
+<p>我新建了<code>F:\hugo\sites</code>文件路径，准备将要搭建的hugo站点放到此目录下</p>
+<h4 id="2新站点的创建-并在本地启动">2.新站点的创建 并在本地启动</h4>
+<p>打开终端 输入<code>hugo new site ***</code> ***为你新站点的名字
+我是又创建了 <code>hugo new site myblog2</code> myblog2去进行演示
+
+  <img src="/img/hugo/1-5.png" alt="hugo">
+
+</p>
+<h4 id="3进入到新创建的站点文件夹内并进行主题添加">3.进入到新创建的站点文件夹内并进行主题添加</h4>
+<p>进入到刚创建的myblog2文件夹内
+
+  <img src="/img/hugo/1-6.png" alt="hugo">
+
+
+在<a href="https://gohugo.io/">hugo 官网</a>选择自己喜欢的主题
+
+  <img src="/img/hugo/1-7.png" alt="hugo">
+
+
+并点进去 找到下载地址
+
+  <img src="/img/hugo/1-.png" alt="hugo">
+
+
+
+  <img src="/img/hugo/1-8.png" alt="hugo">
+
+
+进入到themes 文件夹内
+
+  <img src="/img/hugo/1-9.png" alt="hugo">
+
+
+打开终端 输入git clone + 刚从github上拿到的链接
+
+  <img src="/img/hugo/2-1.png" alt="hugo">
+
+</p>
+<p>用exampleSite下的配置文件替换站点下的配置文件
+
+  <img src="/img/hugo/3-1.png" alt="hugo">
+
+
+
+  <img src="/img/hugo/3-2.png" alt="hugo">
+
+</p>
+<h4 id="4启动本地博客">4.启动本地博客</h4>
+<p>退回到themes 上一级文件夹 并在终端输入 <code>hugo server</code> 去进行运行
+
+  <img src="/img/hugo/2-2.png" alt="hugo">
+
+
+
+  <img src="/img/hugo/3-3.png" alt="hugo">
+
+</p>
+<h2 id="将项目部署到github上">将项目部署到github上</h2>
+<h4 id="1在github上创建托管仓库">1.在github上创建托管仓库</h4>
+<p>进入github 点击 Repositores下的new按钮进行创建
+
+  <img src="/img/hugo/4-1.png" alt="hugo">
+
+
+
+  <img src="/img/hugo/2-2.png" alt="hugo">
+
+</p>
+<h4 id="2将本地文件托管到github上">2.将本地文件托管到gitHub上</h4>
+<p>在站点目录myblog2下打开终端输入<code>hugo</code>该命令的作用将主题和md文件”编译成“html
+
+  <img src="/img/hugo/4-4.png" alt="hugo">
+
+
+回车后会在myblog2下创建一个新的文件夹public
+
+  <img src="/img/hugo/4-5.png" alt="hugo">
+
+
+<code>cd public</code> 终端进入public下依次输入以下命令，每条命令之后回车</p>
+<pre tabindex="0"><code class="language-GIT" data-lang="GIT">    git init
+    git remote add origin https://github.com/fan-bu-fan/fanfan.github.io.git
+    git add .
+    git commit -m &#34;第一次提交&#34;
+    git push -u origin master
+</code></pre><p>此时回到你的gitHub的Reposipories下即可查看刚刚提交的内容
+
+  <img src="/img/hugo/4-6.png" alt="hugo">
+
+</p>
+<p>我们来到github中此仓库的设置<code>settings</code>页面里 
+
+  <img src="/img/hugo/4-3.png" alt="hugo">
+
+
+点击<code>page</code>按钮
+
+  <img src="/img/hugo/5-1.png" alt="hugo">
+
+
+然后看到<code> Your site is published at https://fan-bu-fan.github.io/</code> 提示
+这样我们就可以通过访问此链接去访问我们的博客了</p>
 
 
                 
@@ -353,13 +349,13 @@ DOM型XSS的脚本不会提交到服务器端，都是本地运行的，所以�
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2022/6/xss%28reflected%29/" data-toggle="tooltip" data-placement="top" title="跨站脚本攻击（反射型）---dvwa">&larr;
+                        <a href="/2022/6/xss%28dom%29/" data-toggle="tooltip" data-placement="top" title="跨站脚本攻击（dom）---dvwa">&larr;
                             Previous Post</a>
                     </li>
                     
                     
                     <li class="next">
-                        <a href="/2022/7/hugo/" data-toggle="tooltip" data-placement="top" title="hugo博客搭建流程">Next
+                        <a href="/2022/6/git%E9%85%8D%E7%BD%AE/" data-toggle="tooltip" data-placement="top" title="git配置">Next
                             Post &rarr;</a>
                     </li>
                     

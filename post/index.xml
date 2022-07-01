@@ -17,6 +17,15 @@
     </item>
     
     <item>
+      <title>hugo博客搭建流程</title>
+      <link>https://fan-bu-fan.github.io/2022/7/hugo/</link>
+      <pubDate>Fri, 01 Jul 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://fan-bu-fan.github.io/2022/7/hugo/</guid>
+      <description>hugo 官网 前置条件 git以及github的配置 hugo下载与安装 1.Hugo安装包github下载 就只有一个exe执行程序,我们可以解压存放到你</description>
+    </item>
+    
+    <item>
       <title>跨站脚本攻击（dom）---dvwa</title>
       <link>https://fan-bu-fan.github.io/2022/6/xss(dom)/</link>
       <pubDate>Thu, 30 Jun 2022 00:00:00 +0000</pubDate>
@@ -180,10 +189,10 @@
     
     <item>
       <title>windows电脑配置路线</title>
-      <link>https://fan-bu-fan.github.io/2022/6/windows%E9%85%8D%E7%BD%AE/</link>
+      <link>https://fan-bu-fan.github.io/2022/7/windows%E9%85%8D%E7%BD%AE/</link>
       <pubDate>Sun, 26 Jun 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://fan-bu-fan.github.io/2022/6/windows%E9%85%8D%E7%BD%AE/</guid>
+      <guid>https://fan-bu-fan.github.io/2022/7/windows%E9%85%8D%E7%BD%AE/</guid>
       <description>如何更好看呢 字体更美（MacType，Windows字体的装逼神器） MacType 下载安装教程 如何提高工作效率呢 脑图工具(XMind) XMind 安装 笔记工具(n</description>
     </item>
     
